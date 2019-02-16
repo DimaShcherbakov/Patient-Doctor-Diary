@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import Header from './Header.jsx';
 import Menu from './Menu.jsx';
-import WrapperData from './WrapperData.jsx';
+import MainPageRouter from '../routes/main_page.jsx';
 import '../styles/main.scss';
 
 
@@ -24,24 +23,19 @@ class Main extends React.Component {
 
   render() {
     const { openMenu } = this.state;
-    return( 
-      <div className = "wrapper">
-        <Menu 
-          name = {`menu${openMenu ? ' menu-active': ''}`} 
-          handler = {this.menuAction}
+    return (
+      <div className="wrapper">
+        <Menu
+          name={`menu${openMenu ? ' menu-active' : ''}`}
+          handler={this.menuAction}
         />
-        <div className = {`content ${openMenu ? 'content-active': ''}`}>
-          <Header/>
-          <Switch>
-            <Route exact path = "/main"/>
-            <Route path = "/main/patients" component = {WrapperData}/>
-            <Route path = "/main/notifications"/>
-            <Route path = "/main/messenges"/>
-          </Switch>
+        <div className={`content ${openMenu ? 'content-active' : ''}`}>
+          <Header />
+          <MainPageRouter />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Main
+export default Main;

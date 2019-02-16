@@ -1,19 +1,13 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Form from './Form.jsx';
-import Main from './Main.jsx';
-import RegistrationForm from './RegistrationForm.jsx';
+import { BrowserRouter } from 'react-router-dom';
+import FirstPageRouter from '../routes/first_page.jsx';
 
 const App = () => (
   <BrowserRouter>
     <MuiThemeProvider>
       <div>
-        <Switch>
-          <Route exact path="/" component={Form} />
-          <Route path="/register" component={RegistrationForm} />
-          <Route path="/main" component={Main} />
-        </Switch>
+        <FirstPageRouter />
       </div>
     </MuiThemeProvider>
   </BrowserRouter>
