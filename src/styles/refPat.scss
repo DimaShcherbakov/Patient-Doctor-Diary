@@ -1,0 +1,19 @@
+.registr-popup{
+  position: fixed;
+  top: 54%;
+  left: 52%;
+  transform: translateY(-50%);
+  background-color: lightgray;
+  .cross{
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    &:hover{
+      color:white;
+    }
+  }
+}
+.hide-popup{
+  display: none
+}

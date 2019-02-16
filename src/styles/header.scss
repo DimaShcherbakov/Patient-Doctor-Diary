@@ -1,0 +1,14 @@
+header{
+  display: flex;
+  justify-content:flex-end;
+  align-items: center;
+  background-color: blue;
+  padding:12px 10px;
+  .user-exit{
+    padding: 5px 10px;
+    background-color:lightblue;
+    border: 1px solid black;
+    border-radius: 3px;
+    cursor:pointer;
+  }
+}

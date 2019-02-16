@@ -1,0 +1,12 @@
+.wrapper{
+  position:relative;
+  overflow-x: hidden;
+  .content{
+    transition: 0.5s;
+    position:relative;
+    z-index: 0;
+  }
+  .content-active{
+    margin-left: 30%;
+  }
+}
