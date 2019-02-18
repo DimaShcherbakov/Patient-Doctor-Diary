@@ -2,7 +2,11 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-// const multer = require('multer');
+const multer = require('multer');
+
+const upload = multer({
+  dest: 'uploads/',
+});
 
 const app = express();
 const port = 5000;
@@ -112,3 +116,8 @@ app.post('/register', (req, res) => {
     }
   });  
 });
+
+// app.post('/upload', upload.single('productImage'), (req, res) => {
+//   console.log(req.file);
+//   res.json();
+// });
