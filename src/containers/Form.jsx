@@ -4,8 +4,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import validateEmail from '../utils/validateEmail';
 import { Button } from '@material-ui/core';
-import Error from '../components/error.jsx';
-import { enterState } from '../actions/reducerActions';
+// import Error from '../components/error';
+import { checkData } from '../actions/loginReducer';
 import '../styles/form.scss';
 
 class Form extends React.Component {
@@ -13,7 +13,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.userEnter = this.userEnter.bind(this);
+    // this.userEnter = this.userEnter.bind(this);
     this.state = {
       email: '',
       password: '',
@@ -23,7 +23,6 @@ class Form extends React.Component {
         unRegistered: 'Проверьте логин и пароль',
       },
       emailValid: true,
-      authorised: false,
     };
   }
 
@@ -41,27 +40,27 @@ class Form extends React.Component {
     }
   }
 
-  userEnter(e) {
-    e.preventDefault();
-    const { email } = this.state;
-    const { password } = this.state;
-    if (email !== '' && password !== '') {
-      axios.post('http://localhost:5000/login/', {
-        email: email,
-        password: password,
-      })
-        .then((res) => {
-          console.log(res.data.token);
-          localStorage.token = res.data.token;
-          this.setState({
-            email: '',
-            password: '',
-            authorised: true,
-          });
-        })
-        .catch(err => console.log(err));
-    }
-  }
+  // userEnter(e) {
+  //   e.preventDefault();
+  //   const { email } = this.state;
+  //   const { password } = this.state;
+  //   if (email !== '' && password !== '') {
+  //     // axios.post('http://localhost:5000/login/', {
+  //     //   email: email,
+  //     //   password: password,
+  //     // })
+  //     //   .then((res) => {
+  //     //     console.log(res.data.token);
+  //     //     localStorage.token = res.data.token;
+  //     //     this.setState({
+  //     //       email: '',
+  //     //       password: '',
+  //     //       authorised: true,
+  //     //     });
+  //     //   })
+  //     //   .catch(err => console.log(err));
+  //   }
+  // }
 
   render() {
     const { emailValid } = this.state;
@@ -86,7 +85,7 @@ class Form extends React.Component {
           value={email}
           onChange={this.handleUserInput}
         />
-        {emailValid ? '' : <Error content={formErrors.email} />}
+        {/* {emailValid ? '' : <Error content={formErrors.email} />} */}
         <label htmlFor="password">Enter your password</label>
         <input
           type="password"
@@ -100,12 +99,12 @@ class Form extends React.Component {
           variant="contained"
           color="primary"
           className="btn"
-          onClick={this.userEnter}
+          onClick={() => { (email !== '' && password !== '') ? this.props.checkData({ email, password}) : console.log('Некорректные данные')} }
         >
           Enter
         </Button>
         <p className="links">
-          {console.log(this.props.enter.enterUser)}
+          {console.log(this.props.enter)}
           <Link to="/password">Забыли пароль?</Link>
           <span> | </span>
           <Link to="/register">Регистрация</Link>
@@ -117,13 +116,13 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    enter: state.enter,
+    enter: state.login,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    enterState: (show) => {
-      dispatch(enterState(show));
+    checkData: (data) => {
+      dispatch(checkData(data));
     },
   };
 };
