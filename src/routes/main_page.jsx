@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import WrapperData from '../components/WrapperData.jsx';
+import WrapperData from '../containers/WrapperData.jsx';
 
 const MainPageRouter = () => (
   <Switch>

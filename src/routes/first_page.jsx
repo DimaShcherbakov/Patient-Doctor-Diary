@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Form from '../components/Form.jsx';
-import Main from '../components/Main.jsx';
-import RegistrationForm from '../components/RegistrationForm.jsx';
+import Form from '../containers/Form.jsx';
+import Main from '../containers/Main.jsx';
+import RegistrationForm from '../containers/RegistrationForm.jsx';
 
 const FirstPageRouter = () => (
   <Switch>

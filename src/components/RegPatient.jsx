@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
-import RegistrationForm from './RegistrationForm.jsx';
+import RegistrationForm from '../containers/RegistrationForm.jsx';
 import '../styles/refPat.scss';
 
 const RegPatient = (props) => {

@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle'
+import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import '../styles/menu.scss';
 import Ava from '../assets/ava.jpg';

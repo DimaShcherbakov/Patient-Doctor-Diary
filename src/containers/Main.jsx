@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header.jsx';
-import Menu from './Menu.jsx';
+import Menu from '../components/Menu.jsx';
 import MainPageRouter from '../routes/main_page.jsx';
 import '../styles/main.scss';
 

@@ -4,8 +4,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import InputBase from '@material-ui/core/InputBase';
-import RegPatient from './RegPatient.jsx';
-import Card from './Card.jsx';
+import RegPatient from '../components/RegPatient.jsx';
+import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
 
 class WrapperData extends React.Component {

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import validateEmail from '../utils/validateEmail';
-import Error from './error.jsx';
+import { Button } from '@material-ui/core';
+import Error from '../components/error.jsx';
+import { enterState } from '../actions/reducerActions';
 import '../styles/form.scss';
 
 class Form extends React.Component {
@@ -67,7 +69,6 @@ class Form extends React.Component {
     const { authorised } = this.state;
     const { email } = this.state;
     const { password } = this.state;
-    console.log(emailValid);
     if (authorised) {
       return (
         <Redirect to="/main" />
@@ -104,6 +105,7 @@ class Form extends React.Component {
           Enter
         </Button>
         <p className="links">
+          {console.log(this.props.enter.enterUser)}
           <Link to="/password">Забыли пароль?</Link>
           <span> | </span>
           <Link to="/register">Регистрация</Link>
@@ -113,4 +115,17 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+const mapStateToProps = (state) => {
+  return {
+    enter: state.enter,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    enterState: (show) => {
+      dispatch(enterState(show));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
