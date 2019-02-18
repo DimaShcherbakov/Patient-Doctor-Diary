@@ -7,6 +7,7 @@ import InputBase from '@material-ui/core/InputBase';
 import RegPatient from '../components/RegPatient.jsx';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
+import { Link } from 'react-router-dom';
 
 class WrapperData extends React.Component {
   constructor() {
@@ -38,60 +39,62 @@ class WrapperData extends React.Component {
       <div className="wrapper-data">
         <div className="nav-panel">
           <div className="btns">
-            <Button
-              variant="contained"
-              color="primary"
-            >
+            <Button variant="contained" color="primary">
               От А до Я
             </Button>
-            <Button
-              variant="contained"
-              color="default"
-            >
+            <Button variant="contained" color="default">
               От Я до А
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-            >
+            <Button variant="contained" color="primary">
               По дате добавления
             </Button>
             <div className="search">
               <div className="searchIcon">
                 <SearchIcon />
               </div>
-              <InputBase
-                placeholder="Search…"
-              />
+              <InputBase placeholder="Search…" />
             </div>
           </div>
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className="add-pers"
-            onClick={this.showPopup}
-          >
+          <Fab color="primary" aria-label="Add" className="add-pers" onClick={this.showPopup}>
             <AddIcon />
           </Fab>
         </div>
-        <RegPatient
-          show={showPopup}
-          hide={this.hidePopup}
-        />
+        <RegPatient show={showPopup} hide={this.hidePopup} />
         <div className="wrap-cards">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
+          <Link to="/">
+            <Card />
+          </Link>
         </div>
-
       </div>
     );
   }
