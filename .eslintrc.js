@@ -6,6 +6,7 @@ module.exports = {
     "import"
   ],
   rules:{
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    "import/no-named-as-default": 0
   }
 };

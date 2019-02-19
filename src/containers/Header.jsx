@@ -33,7 +33,7 @@ class Header extends React.Component {
             onClick={this.userExit}
           >
             Выйти
-          </button>
+        </button>
         </div>
       </header>
     );

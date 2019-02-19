@@ -65,6 +65,7 @@ app.post('/login', (req, res) => {
     email: req.body.email,
     pas: req.body.password,
   };
+  console.log(user)
   const query = 'SELECT email, password FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
     if (user.email === rows[0].email) {

@@ -12,8 +12,8 @@ import Ava from '../assets/ava.jpg';
 const Menu = props => (
   <div className={props.name}>
     <div
-      className="menu-btn"
-      onClick={ props.handler }
+      className="menu-btn"  
+      onClick={props.handler}
     >
       <IconButton>
         <MenuIcon />

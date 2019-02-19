@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import validateEmail from '../utils/validateEmail';
@@ -13,13 +12,11 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.handleUserInput = this.handleUserInput.bind(this);
-    // this.userEnter = this.userEnter.bind(this);
     this.state = {
       email: '',
       password: '',
       formErrors: {
         email: 'Неверная почта',
-        password: 'Неверный пароль',
         unRegistered: 'Проверьте логин и пароль',
       },
       emailValid: true,
@@ -40,35 +37,13 @@ class Form extends React.Component {
     }
   }
 
-  // userEnter(e) {
-  //   e.preventDefault();
-  //   const { email } = this.state;
-  //   const { password } = this.state;
-  //   if (email !== '' && password !== '') {
-  //     // axios.post('http://localhost:5000/login/', {
-  //     //   email: email,
-  //     //   password: password,
-  //     // })
-  //     //   .then((res) => {
-  //     //     console.log(res.data.token);
-  //     //     localStorage.token = res.data.token;
-  //     //     this.setState({
-  //     //       email: '',
-  //     //       password: '',
-  //     //       authorised: true,
-  //     //     });
-  //     //   })
-  //     //   .catch(err => console.log(err));
-  //   }
-  // }
-
   render() {
     const { emailValid } = this.state;
     const { formErrors } = this.state;
-    const { authorised } = this.state;
     const { email } = this.state;
     const { password } = this.state;
-    if (authorised) {
+    const { isAuthorised } = this.props.enter;
+    if (isAuthorised) {
       return (
         <Redirect to="/main" />
       );
@@ -104,7 +79,6 @@ class Form extends React.Component {
           Enter
         </Button>
         <p className="links">
-          {console.log(this.props.enter)}
           <Link to="/password">Забыли пароль?</Link>
           <span> | </span>
           <Link to="/register">Регистрация</Link>

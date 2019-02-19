@@ -1,41 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { openMenu } from '../actions/menuReducer';
 import Header from './Header.jsx';
 import Menu from '../components/Menu.jsx';
 import MainPageRouter from '../routes/main_page.jsx';
 import '../styles/main.scss';
 
 
-class Main extends React.Component {
-
-  constructor() {
-    super();
-    this.menuAction = this.menuAction.bind(this);
-    this.state = {
-      openMenu: false,
-    };
-  }
-
-  menuAction() {
-    this.setState((state) => ({
-      openMenu : !state.openMenu,
-    }));
-  }
-
-  render() {
-    const { openMenu } = this.state;
-    return (
-      <div className="wrapper">
-        <Menu
-          name={`menu${openMenu ? ' menu-active' : ''}`}
-          handler={this.menuAction}
-        />
-        <div className={`content ${openMenu ? 'content-active' : ''}`}>
-          <Header />
-          <MainPageRouter />
-        </div>
+const Main = (props) => {
+  const { menu } = props;
+  return (
+    <div className="wrapper">
+      <Menu
+        name={`menu${menu.openMenu ? ' menu-active' : ''}`}
+        handler={() => props.openMenu(menu.openMenu)}
+      />
+      <div className={`content ${menu.openMenu ? 'content-active' : ''}`}>
+        <Header />
+        <MainPageRouter />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    menu: state.menu,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openMenu: (data) => {
+      dispatch(openMenu(data));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
