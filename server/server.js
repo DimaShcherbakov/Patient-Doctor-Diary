@@ -115,7 +115,7 @@ app.post('/register', (req, res) => {
         }
       });
     }
-  });  
+  });
 });
 
 // app.post('/upload', upload.single('productImage'), (req, res) => {
