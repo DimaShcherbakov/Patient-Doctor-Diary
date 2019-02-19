@@ -136,6 +136,49 @@ app.get('/user/:id', (req, res) => {
   });
 });
 
+app.get('/user/:id/:sort/patients/', (req, res) => {
+  const { id } = req.params;
+  const { sort } = req.params;
+  const queryNorm = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ?';
+  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name ASC';
+  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name DESC';
+  // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
+
+  switch (sort) {
+    case 'norm':
+      connection.query(queryNorm, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    case 'asc':
+      // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
+      connection.query(queryASC, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    case 'desc':
+      connection.query(queryDESC, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    default: break;
+  }
+});
+
+
+// SORTING // SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = 13 ORDER BY `pacients_data`.`first_name` ASC
 
 // app.post('/upload', upload.single('productImage'), (req, res) => {
 //   console.log(req.file);
