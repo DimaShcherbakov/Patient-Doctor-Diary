@@ -60,14 +60,14 @@ app.post('/api/posts', verifyToken, (req, res) => {
   });
 });
 
-app.post('/login', (req, res) => { 
+app.post('/login', (req, res) => {
   const user = {
     email: req.body.email,
     pas: req.body.password,
   };
   const query = 'SELECT email, password FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
-    if (user.email === rows[0].email) {
+    if (rows[0]) {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
@@ -78,9 +78,11 @@ app.post('/login', (req, res) => {
             res.sendStatus(500);
           }
         });
+      } else {
+        res.status(401).json({ message: 'Неверный пароль' });
       }
     } else {
-      res.status(400);
+      res.status(401).json({ message: 'Неверный логин' });
     }
   });
 });
