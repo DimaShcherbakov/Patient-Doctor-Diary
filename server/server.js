@@ -60,28 +60,31 @@ app.post('/api/posts', verifyToken, (req, res) => {
   });
 });
 
-app.post('/login', (req, res) => { 
+app.post('/login', (req, res) => {
   const user = {
     email: req.body.email,
     pas: req.body.password,
   };
-  console.log(user)
-  const query = 'SELECT email, password FROM registration_info WHERE email = ? ';
+  const query = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
-    if (user.email === rows[0].email) {
+    console.log(rows[0])
+    if (rows[0]) {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
             res.json({
               token,
+              id: rows[0].id_registr_info,
             });
           } else {
             res.sendStatus(500);
           }
         });
+      } else {
+        res.status(418).json({ message: 'Неверный пароль' });
       }
     } else {
-      res.status(400);
+      res.status(406).json({ message: 'Неверный логин' });
     }
   });
 });
@@ -98,18 +101,16 @@ app.post('/register', (req, res) => {
     pas: req.body.pas,
     photo: req.body.photo,
   };
-  console.log(userData);
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     console.log(rows[0]);
     if (rows[0]) {
-      res.json({ message: 'Такой пользователь уже есть' });
+      res.status(400).json({ message: 'Такой пользователь уже есть' });
     } else {
       const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
                       birthday_date, position, telefone, photo) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
       connection.query(query2, [userData.em, userData.pas, userData.fN, userData.lN, userData.tn, userData.bD, userData.pos, userData.tel, userData.photo], (err, rows, fields) => {
         if (err) {
-          console.log(err);
-          res.sendStatus(500);
+          res.status(500);
         } else {
           res.json(rows);
         }
@@ -117,6 +118,67 @@ app.post('/register', (req, res) => {
     }
   });
 });
+
+app.get('/user/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM `registration_info` WHERE id_registr_info = ?';
+  connection.query(query, [id], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json({
+        firstName: rows[0].first_name,
+        lastName: rows[0].last_name,
+        thirdName: rows[0].third_name,
+        photo: rows[0].photo,
+      });
+    }
+  });
+});
+
+app.get('/user/:id/:sort/patients/', (req, res) => {
+  const { id } = req.params;
+  const { sort } = req.params;
+  const queryNorm = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ?';
+  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name ASC';
+  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name DESC';
+  // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
+
+  switch (sort) {
+    case 'norm':
+      connection.query(queryNorm, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    case 'asc':
+      // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
+      connection.query(queryASC, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    case 'desc':
+      connection.query(queryDESC, [id], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.json(rows);
+        }
+      });
+      break;
+    default: break;
+  }
+});
+
+
+// SORTING // SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = 13 ORDER BY `pacients_data`.`first_name` ASC
 
 // app.post('/upload', upload.single('productImage'), (req, res) => {
 //   console.log(req.file);
