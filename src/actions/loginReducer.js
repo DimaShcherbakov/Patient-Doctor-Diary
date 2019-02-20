@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function checkData(loginData) {
+export function checkData(loginData) {
   return (dispatch) => {
     axios.post('http://localhost:5000/login/', loginData)
       .then((res) => {
@@ -12,17 +12,32 @@ export default function checkData(loginData) {
             token: res.data.token,
             userId: res.data.id,
             isAuthorised: true,
-          }
-        })
+          },
+        });
       })
       .catch((err) => {
-        console.log(err)
         dispatch({
           type: 'LOGIN_FAILURE',
           payload: {
             isAuthorised: false,
-          }
-        })
-      })
-  }
-};
+            error: true,
+          },
+        });
+      });
+  };
+}
+
+export function logout() {
+  localStorage.token = ' ';
+  localStorage.userId = ' ';
+  return (dispatch) => {
+    dispatch({
+      type: 'LOGOUT',
+      payload: {
+        token: '',
+        userId: '',
+        isAuthorised: false,
+      },
+    });
+  };
+}

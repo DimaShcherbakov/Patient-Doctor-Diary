@@ -3,8 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import validateEmail from '../utils/validateEmail';
 import { Button } from '@material-ui/core';
-// import Error from '../components/error';
-import checkData from '../actions/loginReducer';
+import Error from '../components/error.jsx';
+import { checkData } from '../actions/loginReducer';
 import '../styles/form.scss';
 
 class Form extends React.Component {
