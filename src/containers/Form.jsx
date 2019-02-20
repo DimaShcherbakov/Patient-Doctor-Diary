@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import validateEmail from '../utils/validateEmail';
 import { Button } from '@material-ui/core';
+import validateEmail from '../utils/validateEmail';
 import Error from '../components/error.jsx';
 import { checkData } from '../actions/loginReducer';
 import '../styles/form.scss';

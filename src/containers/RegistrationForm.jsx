@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { telMask, dateMask } from '../utils/Masks';
 // import Error from './error.jsx';
 import '../styles/register.scss';
 
@@ -73,6 +74,11 @@ class RegistrationForm extends React.Component {
     }
   }
 
+  componentDidMount() {
+    telMask('tel');
+    dateMask('date');
+  }
+
   render() {
     const {
       firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
@@ -139,9 +145,10 @@ class RegistrationForm extends React.Component {
           </div>
           <label htmlFor="">Дата рождения</label>
           <input
-            type="date"
-            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            type="text"
+            pattern="\d{2}.\d{2}.\d{4}"
             name="brthDay"
+            id="date"
             value={brthDay}
             onChange={this.handleUserInput}
             required
@@ -159,12 +166,12 @@ class RegistrationForm extends React.Component {
               <label htmlFor="">Телефон</label>
               <br />
               <input
-                type="tel"
+                type="text"
                 name="telephone"
+                id="tel"
                 pattern="[\+]\d{3}\s[\(]\d{2}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
-                minLength="19"
-                maxLength="19"
                 value={telephone}
+                placeholder="+375 (00) 000-00-00"
                 onChange={this.handleUserInput}
                 required
               />
