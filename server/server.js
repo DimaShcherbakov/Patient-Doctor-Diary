@@ -122,11 +122,12 @@ app.post('/register', (req, res) => {
 app.get('/user/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM `registration_info` WHERE id_registr_info = ?';
-  connection.query(query, [id], (err, rows, fields) => {
+  connection.query(query, [id], async (err, rows, fields) => {
     if (err) {
       res.status(500);
     } else {
-      res.json({
+      console.log(rows[0])
+      await res.json({
         firstName: rows[0].first_name,
         lastName: rows[0].last_name,
         thirdName: rows[0].third_name,

@@ -6,7 +6,6 @@ const initialState = {
 };
 
 const loginReducer = (state = initialState, action) => {
-  console.log(localStorage)
   switch ( action.type ) {
     case 'LOGIN_SUCCESS':
       state = {

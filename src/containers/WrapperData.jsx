@@ -18,6 +18,10 @@ class WrapperData extends React.Component {
     };
   }
 
+  componentDidMount() {
+    
+  }
+
   showPopup(e) {
     e.preventDefault();
     this.setState({
@@ -91,7 +95,6 @@ class WrapperData extends React.Component {
           <Card />
           <Card />
         </div>
-
       </div>
     );
   }

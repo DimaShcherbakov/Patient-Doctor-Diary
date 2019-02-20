@@ -6,7 +6,6 @@ import { logout } from '../actions/loginReducer';
 import '../styles/header.scss';
 
 const Header = (props) => {
-
   const { data } = props;
   const exit = 'Выйти';
   if (data.isAuthorised === false) {
@@ -25,7 +24,7 @@ const Header = (props) => {
       </div>
     </header>
   );
-}
+};
 
 Header.propTypes = {
   data: PropTypes.object,

@@ -20,6 +20,6 @@ const RegPatient = (props) => {
 export default RegPatient;
 
 RegPatient.propTypes = {
-  show: PropTypes.boolean,
+  show: PropTypes.func,
   hide: PropTypes.func,
 };
