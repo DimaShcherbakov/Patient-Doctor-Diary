@@ -32,7 +32,6 @@ class WrapperData extends React.Component {
       showPopup: false,
     });
   }
-
   render() {
     const { showPopup } = this.state;
     return (

@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
-import RegistrationForm from '../containers/RegistrationForm.jsx';
+import FormRegPatient from '../containers/FormRegPatient.jsx';
 import '../styles/refPat.scss';
 
-const RegPatient = (props) => {
+const RegPatient = props => {
   const { show, hide } = props;
   return (
     <div className={`registr-popup ${show ? '' : 'hide-popup'}`}>
-      <RegistrationForm />
-      <CloseIcon
-        className="cross"
-        onClick={hide}
-      />
+      <FormRegPatient />
+      <CloseIcon className="cross" onClick={hide} />
     </div>
-  )
+  );
 };
 
 export default RegPatient;

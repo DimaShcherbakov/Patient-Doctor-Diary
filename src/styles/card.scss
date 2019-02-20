@@ -17,13 +17,13 @@
     }
   }
   p {
+    text-decoration: none;
     display: flex;
     flex-direction: column;
     text-align: center;
   }
 }
 .card:hover {
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -o-transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }

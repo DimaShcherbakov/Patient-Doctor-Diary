@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { telMask, dateMask } from '../utils/Masks';
 // import Error from './error.jsx';
 import '../styles/register.scss';
 
@@ -50,32 +51,57 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.checkPas();
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName,
+      secondName,
+      thirdName,
+      brthDay,
+      position,
+      telephone,
+      email,
+      pas1,
+      image,
+      pas2,
     } = this.state;
     if (pas1 === pas2) {
-      axios.post('http://localhost:5000/register', {
-        firstName,
-        secondName,
-        thirdName,
-        brthDay,
-        position,
-        telephone,
-        email,
-        pas: pas1,
-        photo: image,
-      }).then((res) => {
-        if (res.message) {
-          console.log('User is already existed');
-        } else {
-          console.log('user was added');
-        }
-      });
+      axios
+        .post('http://localhost:5000/register', {
+          firstName,
+          secondName,
+          thirdName,
+          brthDay,
+          position,
+          telephone,
+          email,
+          pas: pas1,
+          photo: image,
+        })
+        .then(res => {
+          if (res.message) {
+            console.log('User is already existed');
+          } else {
+            console.log('user was added');
+          }
+        });
     }
+  }
+
+  componentDidMount() {
+    telMask('tel');
+    dateMask('date');
   }
 
   render() {
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName,
+      secondName,
+      thirdName,
+      brthDay,
+      position,
+      telephone,
+      email,
+      pas1,
+      image,
+      pas2,
     } = this.state;
     const { truePas } = this.state;
     if (truePas) {
@@ -86,10 +112,7 @@ class RegistrationForm extends React.Component {
         <form>
           <h2>Регистрация</h2>
           <div className="main-info">
-            <label
-              className="avatar"
-              htmlFor="avatar"
-            >
+            <label className="avatar" htmlFor="avatar">
               <div className="plus">
                 <input
                   type="file"
@@ -101,11 +124,7 @@ class RegistrationForm extends React.Component {
               </div>
             </label>
             <div className="person-data">
-              <label
-                htmlFor="secondName"
-              >
-                Фамилия
-              </label>
+              <label htmlFor="secondName">Фамилия</label>
               <input
                 type="text"
                 name="secondName"
@@ -114,11 +133,7 @@ class RegistrationForm extends React.Component {
                 onChange={this.handleUserInput}
                 required
               />
-              <label
-                htmlFor="firstName"
-              >
-                Имя
-              </label>
+              <label htmlFor="firstName">Имя</label>
               <input
                 type="text"
                 name="firstName"
@@ -139,9 +154,10 @@ class RegistrationForm extends React.Component {
           </div>
           <label htmlFor="">Дата рождения</label>
           <input
-            type="date"
-            pattern="\d{1,2}/\d{1,2}/\d{4}"
+            type="text"
+            pattern="\d{2}.\d{2}.\d{4}"
             name="brthDay"
+            id="date"
             value={brthDay}
             onChange={this.handleUserInput}
             required
@@ -159,12 +175,12 @@ class RegistrationForm extends React.Component {
               <label htmlFor="">Телефон</label>
               <br />
               <input
-                type="tel"
+                type="text"
                 name="telephone"
+                id="tel"
                 pattern="[\+]\d{3}\s[\(]\d{2}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
-                minLength="19"
-                maxLength="19"
                 value={telephone}
+                placeholder="+375 (00) 000-00-00"
                 onChange={this.handleUserInput}
                 required
               />
@@ -205,12 +221,7 @@ class RegistrationForm extends React.Component {
               />
             </div>
           </div>
-          <Button
-            variant="contained"
-            color="primary"
-            className="btn"
-            onClick={this.formHandler}
-          >
+          <Button variant="contained" color="primary" className="btn" onClick={this.formHandler}>
             Зарегистрироваться
           </Button>
         </form>
