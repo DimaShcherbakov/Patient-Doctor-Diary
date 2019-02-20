@@ -81,10 +81,10 @@ app.post('/login', (req, res) => {
           }
         });
       } else {
-        res.status(418).json({ message: 'Неверный пароль' });
+        res.status(418).send({ message: 'Неверный пароль' });
       }
     } else {
-      res.status(406).json({ message: 'Неверный логин' });
+      res.status(406).send({ message: 'Неверный логин' });
     }
   });
 });
@@ -104,7 +104,7 @@ app.post('/register', (req, res) => {
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     console.log(rows[0]);
     if (rows[0]) {
-      res.status(400).json({ message: 'Такой пользователь уже есть' });
+      res.status(400).send({ message: 'Такой пользователь уже есть' });
     } else {
       const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
                       birthday_date, position, telefone, photo) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -140,8 +140,8 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
   const { id } = req.params;
   const { sort } = req.params;
   const queryNorm = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ?';
-  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name ASC';
-  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY first_name DESC';
+  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name ASC';
+  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name DESC';
   // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
 
   switch (sort) {
