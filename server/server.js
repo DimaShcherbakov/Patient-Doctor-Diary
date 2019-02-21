@@ -19,7 +19,7 @@ app.post('/fileupload', (req, res) => {
   if (req.files) {
     const file = req.files.filename;
     const filename = file.name;
-    file.mv('./patients_analizes/' + filename, (err) => {
+    file.mv(`./patients_analizes/${filename}`, (err) => {
       if (err) {
         console.log(err);
         res.send('Error occured');
@@ -27,7 +27,7 @@ app.post('/fileupload', (req, res) => {
         res.send('Done');
       }
     });
-  }  
+  }
 });
 
 const connection = mysql.createConnection({
