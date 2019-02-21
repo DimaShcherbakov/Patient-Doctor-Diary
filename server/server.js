@@ -15,7 +15,6 @@ const port = 5000;
 app.use(upload());
 
 app.post('/fileupload', (req, res) => {
-  console.log(req.files);
   if (req.files) {
     const file = req.files.filename;
     const filename = file.name;
@@ -41,7 +40,7 @@ const connection = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-function verifyToken (req, res, next) {
+function verifyToken(req, res, next) {
   const bearerHeader = req.headers['authorization']
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
@@ -135,7 +134,7 @@ app.post('/register', (req, res) => {
         }
       });
     }
-  });  
+  });
 });
 
 app.get('/user/:id', (req, res) => {
@@ -162,7 +161,6 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
   const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name ASC';
   const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name DESC';
   // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
-
   switch (sort) {
     case 'norm':
       connection.query(queryNorm, [id], (err, rows, fields) => {
@@ -196,6 +194,18 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
   }
 });
 
+app.post('/registration/patient/', (req, res) => {
+  const data = req.body;
+  const query = `INSERT INTO pacients_data (id_pacient, id_registr_info, first_name, last_name, third_name, brth_day, reg_place, work_place, phone, photo, email, pas, pacients_data_analyse) VALUES 
+                ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10],[value-11],[value-12],[value-13])`;
+  connection.query(query, [], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json(rows);
+    }
+  });
+});
 
 // SORTING // SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = 13 ORDER BY `pacients_data`.`first_name` ASC
 
