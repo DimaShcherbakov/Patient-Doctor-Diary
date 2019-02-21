@@ -2,14 +2,33 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const upload = require('express-fileupload');
 const multer = require('multer');
 
-const upload = multer({
-  dest: 'uploads/',
-});
+// const upload = multer({
+//   dest: 'uploads/',
+// });
 
 const app = express();
 const port = 5000;
+//----------------
+app.use(upload());
+
+app.post('/fileupload', (req, res) => {
+  console.log(req.files);
+  if (req.files) {
+    const file = req.files.filename;
+    const filename = file.name;
+    file.mv('./patients_analizes/' + filename, (err) => {
+      if (err) {
+        console.log(err);
+        res.send('Error occured');
+      } else {
+        res.send('Done');
+      }
+    });
+  }  
+});
 
 const connection = mysql.createConnection({
   host: 'localhost',
