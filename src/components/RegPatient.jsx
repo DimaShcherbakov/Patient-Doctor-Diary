@@ -14,12 +14,12 @@ const RegPatient = (props) => {
         onClick={hide}
       />
     </div>
-  )
+  );
 };
 
 export default RegPatient;
 
 RegPatient.propTypes = {
-  show: PropTypes.func,
+  show: PropTypes.boolean,
   hide: PropTypes.func,
 };

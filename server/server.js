@@ -102,7 +102,6 @@ app.post('/register', (req, res) => {
     photo: req.body.photo,
   };
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
-    console.log(rows[0]);
     if (rows[0]) {
       res.status(400).send({ message: 'Такой пользователь уже есть' });
     } else {
@@ -126,7 +125,6 @@ app.get('/user/:id', (req, res) => {
     if (err) {
       res.status(500);
     } else {
-      console.log(rows[0])
       await res.json({
         firstName: rows[0].first_name,
         lastName: rows[0].last_name,
@@ -140,9 +138,10 @@ app.get('/user/:id', (req, res) => {
 app.get('/user/:id/:sort/patients/', (req, res) => {
   const { id } = req.params;
   const { sort } = req.params;
+  console.log(sort);
   const queryNorm = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ?';
-  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name ASC';
-  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY second_name DESC';
+  const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY last_name ASC';
+  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY last_name DESC';
   // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
 
   switch (sort) {
@@ -156,7 +155,6 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
       });
       break;
     case 'asc':
-      // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
       connection.query(queryASC, [id], (err, rows, fields) => {
         if (err) {
           res.status(500);

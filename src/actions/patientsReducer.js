@@ -7,7 +7,7 @@ export default function getListPatients(id, sort) {
         dispatch({
           type: 'LIST_DATA',
           payload: {
-            dataArr: res,
+            dataArr: res.data,
           },
         });
       })

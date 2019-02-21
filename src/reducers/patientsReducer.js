@@ -1,5 +1,5 @@
 const initialState = {
-  dataArr: undefined,
+  dataArr: [],
 };
 
 const patientsReducer = (state = initialState, action) => {
@@ -9,6 +9,7 @@ const patientsReducer = (state = initialState, action) => {
         ...state,
         dataArr: action.payload.dataArr,
       };
+    console.log(state)
     break;
   };
   return state;

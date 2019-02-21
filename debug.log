@@ -414,3 +414,4 @@
 [0219/172557.098:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fffffdc000 of 6024 bytes failed: Запрос ReadProcessMemory или WriteProcessMemory был выполнен только частично. (0x12B)
 [0219/172557.099:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fffffde000 of 6024 bytes failed: Запрос ReadProcessMemory или WriteProcessMemory был выполнен только частично. (0x12B)
 [0219/172557.106:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Попытка доступа к процессу, выполняющему процедуру завершения. (0xc000010a)
+[0221/104910.176:ERROR:file_io.cc(134)] WriteFile: Идет закрытие канала. (0xE8)
