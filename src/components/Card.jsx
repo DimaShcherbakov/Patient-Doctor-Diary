@@ -7,7 +7,6 @@ const Card = (props) => {
   const { info } = props;
   return (
     <div className="card">
-      {console.log('Card', props)}
       <div className="image-wrap">
         <img src={Image} alt="person" />
       </div>
