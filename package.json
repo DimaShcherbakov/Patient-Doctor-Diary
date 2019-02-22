@@ -24,6 +24,7 @@
     "redux-thunk": "^2.3.0",
     "reduxsauce": "^1.0.1",
     "sass": "^1.16.1",
+    "seamless-immutable": "^7.1.4",
     "url-loader": "^1.1.2"
   },
   "devDependencies": {

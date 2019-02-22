@@ -48,7 +48,7 @@ const Menu = (props) => {
         >
           <div className="nav-wrap">
             <SupervisedUserCircle />
-            &nbsp;Мои пациенты
+            &nbsp; Мои пациенты
           </div>
         </Link>
         <Link
@@ -66,7 +66,7 @@ const Menu = (props) => {
         >
           <div className="nav-wrap">
             <MailIcon />
-            &nbsp;Сообщения
+            &nbsp; Сообщения
           </div>
         </Link>
       </nav>
