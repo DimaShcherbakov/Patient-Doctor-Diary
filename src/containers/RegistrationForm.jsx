@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { telMask, dateMask } from '../utils/Masks';
+// import { telMask, dateMask } from '../utils/Masks';
 // import Error from './error.jsx';
 import '../styles/register.scss';
 

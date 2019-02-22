@@ -58,7 +58,9 @@ class WrapperData extends React.Component {
             <AddIcon />
           </Fab>
         </div>
+
         <RegPatient show={showPopup} hide={this.hidePopup} />
+
         <div className="wrap-cards">
           <Link to="/">
             <Card />

@@ -13,12 +13,28 @@ class FormRegPatient extends Component {
       registration: '',
       file: '',
       email: '',
-      date: '',
+      bday: '',
       password: '',
       confirmPassword: '',
+      telephone: '',
       password_has_error: false,
     };
   }
+
+  // this.state = {
+  //   surname: '',
+  //   name: '',
+  //   middleName: '',
+  //   job: '',
+  //   registration: '',
+  //   file: '',
+  //   email: '',
+  //   bday: '',
+  //   password: '',
+  //   confirmPassword: '',
+  //   telephone: '',
+  //   password_has_error: false,
+  // };
 
   checkPassword() {
     if (!this.state.password || this.state.password != this.state.confirmPassword) {
@@ -46,7 +62,8 @@ class FormRegPatient extends Component {
   render() {
     return (
       <form className="registerPeople">
-        <label>
+        <span className="formName">Регистрация Пациента</span>
+        <div className="wrap-input">
           <input
             type="text"
             name="surname"
@@ -55,8 +72,6 @@ class FormRegPatient extends Component {
             value={this.state.surname}
             required
           />
-        </label>
-        <label>
           <input
             type="text"
             name="name"
@@ -65,8 +80,8 @@ class FormRegPatient extends Component {
             value={this.state.name}
             required
           />
-        </label>
-        <label>
+        </div>
+        <div className="wrap-input">
           <input
             type="text"
             name="middleName"
@@ -75,18 +90,31 @@ class FormRegPatient extends Component {
             value={this.state.middleName}
             required
           />
-        </label>
-        <label>
           <input
-            type="text"
-            name="job"
-            placeholder="Место Работы"
+            type="date"
+            name="bday"
             onChange={e => this.onChange(e)}
-            value={this.state.job}
+            value={this.state.bday}
             required
           />
-        </label>
-        <label>
+        </div>
+        <input
+          type="tel"
+          name="telephone"
+          placeholder="Номер телефона"
+          onChange={e => this.onChange(e)}
+          value={this.state.telephone}
+          required
+        />
+        <input
+          type="text"
+          name="job"
+          placeholder="Место Работы"
+          onChange={e => this.onChange(e)}
+          value={this.state.job}
+          required
+        />
+        <div className="wrap-input">
           <input
             type="text"
             name="registration"
@@ -95,19 +123,15 @@ class FormRegPatient extends Component {
             value={this.state.registration}
             required
           />
-        </label>
-        <label>
-          Фото
           <input
             type="file"
-            name="image"
-            id="avatar"
+            name="file"
+            data-buttonText="Фото"
             accept=".jpg, .jpeg, .png"
             onChange={e => this.onChange(e)}
-            value={this.state.photo}
-            required
+            value={this.state.file}
           />
-        </label>
+        </div>
         <label>
           <input
             type="email"
@@ -119,7 +143,7 @@ class FormRegPatient extends Component {
             required
           />
         </label>
-        <label>
+        <div className="wrap-input">
           <input
             type="password"
             name="password"
@@ -128,8 +152,6 @@ class FormRegPatient extends Component {
             value={this.state.password}
             required
           />
-        </label>
-        <label>
           <input
             type="password"
             className={this.state.password_has_error ? 'errorInput' : 'confirmPass'}
@@ -139,12 +161,12 @@ class FormRegPatient extends Component {
             onChange={e => this.onChange(e)}
             required
           />
-        </label>
-        <span className={this.state.password_has_error ? '' : 'appendError'}>
-          password do not match
+        </div>
+        <span className={this.state.password_has_error ? 'appendError' : 'hideError'}>
+          Пароли не совпадают
         </span>
         <button onClick={() => this.onSubmit()} type="submit">
-          Submit
+          Подтвердить
         </button>
       </form>
     );
