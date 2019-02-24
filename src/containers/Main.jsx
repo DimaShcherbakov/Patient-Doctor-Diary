@@ -15,13 +15,13 @@ class Main extends React.Component {
   }
 
   render() {
-    const { menu } = this.props;
-    console.log(this.props);
+    const { menu, openMenu } = this.props;
+
     return (
       <div className="wrapper">
         <Menu
           name={`menu${menu.openMenu ? ' menu-active' : ''}`}
-          handler={() => this.props.openMenu(menu.openMenu)}
+          handler={() => openMenu(menu.openMenu)}
           info={this.props}
         />
         <div className={`content ${menu.openMenu ? 'content-active' : ''}`}>
