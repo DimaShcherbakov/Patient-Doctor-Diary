@@ -43,7 +43,6 @@ class Form extends React.Component {
     const { email } = this.state;
     const { password } = this.state;
     const { isAuthorised } = this.props.enter;
-    console.log(this.props.enter);
     if (isAuthorised) {
       return (
         <Redirect to="/main" />

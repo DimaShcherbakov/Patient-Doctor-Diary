@@ -1,29 +1,38 @@
-const initialState = {
+import { createActions, createReducer } from 'reduxsauce'
+
+export const { Types, Creators } = createActions({
+  menuAction: ['openMenu'],
+  getMenuData: ['fN', 'lN', 'tN'],
+});
+
+const INITIAL_STATE = {
   openMenu: false,
   fN: '',
   lN: '',
   tN: '',
 };
 
-const menuReducer = (state = initialState, action) => {
-  switch ( action.type ) {
-    case 'MENU_ACTION':
-      state = {
-        ...state,
-        openMenu: action.payload,
-      };
-    break;
-    case 'GET_MENU_DATA':
-      state = {
-        ...state,
-        fN: action.payload.firstName,
-        lN: action.payload.lastName,
-        tN: action.payload.thirdName,
-      };
-      console.log(state);
-    break;
-  };
-  return state;
+const openMenu = (state = INITIAL_STATE, action) => (
+  {
+    ...state,
+    openMenu: action.openMenu,
+  }
+);
+
+const getMenuData = (state = INITIAL_STATE, action) => (
+  {
+    ...state,
+    fN: action.fN,
+    lN: action.lN,
+    tN: action.lN,
+  }
+);
+
+export const HANDLERS = {
+  [Types.MENU_ACTION]: openMenu,
+  [Types.GET_MENU_DATA]: getMenuData,
 };
+
+const menuReducer = createReducer(INITIAL_STATE, HANDLERS);
 
 export default menuReducer;

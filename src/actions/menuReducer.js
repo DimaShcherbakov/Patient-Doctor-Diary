@@ -1,24 +1,16 @@
 import axios from 'axios';
+import { Creators } from '../reducers/menuReducer';
 
 export function openMenu(open) {
-  return {
-    type: 'MENU_ACTION',
-    payload: !open,
-  };
-};
+  return Creators.menuAction(!open);
+}
 
 export function getPersonalInfo(id) {
   return (dispatch) => {
     axios.get(`http://localhost:5000/user/${id}`)
       .then((res) => {
-        dispatch({
-          type: 'GET_MENU_DATA',
-          payload: {
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            thirdName: res.data.thirdName,
-          },
-        });
+        console.log(res.data);
+        dispatch(Creators.getMenuData(res.data.firstName, res.data.lastName, res.data.thirdName));
       })
       .catch(err => console.log(err));
   };

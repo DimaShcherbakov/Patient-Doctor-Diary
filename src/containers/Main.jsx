@@ -16,6 +16,7 @@ class Main extends React.Component {
 
   render() {
     const { menu } = this.props;
+    console.log(this.props);
     return (
       <div className="wrapper">
         <Menu

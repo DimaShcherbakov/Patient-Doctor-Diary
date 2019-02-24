@@ -1,7 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-// import loginReducer from './reducers/loginReducer';
-import loginReducer from './ducks/types';
+import loginReducer from './reducers/loginReducer';
 import menuReducer from './reducers/menuReducer';
 import patientsReducer from './reducers/patientsReducer';
 
