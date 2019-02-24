@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Creators } from '../reducers/loginReducer';
 
 export function checkData(loginData) {
   return (dispatch) => {
@@ -6,23 +7,10 @@ export function checkData(loginData) {
       .then((res) => {
         localStorage.token = res.data.token;
         localStorage.userId = res.data.id;
-        dispatch({
-          type: 'LOGIN_SUCCESS',
-          payload: {
-            token: res.data.token,
-            userId: res.data.id,
-            isAuthorised: true,
-          },
-        });
+        dispatch(Creators.loginSuccess(res.data.token, res.data.id));
       })
       .catch((err) => {
-        dispatch({
-          type: 'LOGIN_FAILURE',
-          payload: {
-            isAuthorised: false,
-            error: true,
-          },
-        });
+        dispatch(Creators.loginFailure());
       });
   };
 }
@@ -30,14 +18,7 @@ export function checkData(loginData) {
 export function logout() {
   localStorage.token = ' ';
   localStorage.userId = ' ';
-  return (dispatch) => {
-    dispatch({
-      type: 'LOGOUT',
-      payload: {
-        token: '',
-        userId: '',
-        isAuthorised: false,
-      },
-    });
-  };
+  return dispatch => (
+    dispatch(Creators.logout())
+  );
 }
