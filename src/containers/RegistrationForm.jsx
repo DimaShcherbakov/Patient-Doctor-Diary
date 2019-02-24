@@ -26,10 +26,11 @@ class RegistrationForm extends React.Component {
       pas2: '',
       formErrors: {
         pasError: 'Пароли не совпадают',
-        emailError: 'Проверьте email',
+        emailError: 'Пользователь с таким email уже существует',
       },
       truePas: true,
-      formErr: false,
+      formErr: true,
+      allRight: false,
     };
   }
 
@@ -69,9 +70,9 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.checkPas();
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, truePas,
     } = this.state;
-    if (this.truePas) {
+    if (truePas) {
       axios.post('http://localhost:5000/register', {
         firstName,
         secondName,
@@ -83,24 +84,28 @@ class RegistrationForm extends React.Component {
         pas: pas1,
         photo: image,
       }).then((res) => {
-        if (res.message) {
-          console.log('User is already existed');
+        console.log(res);
+        if (res.data.error) {
+          this.setState({
+            email: '',
+            formErr: false,
+          });
         } else {
-          console.log('user was added');
+          this.setState({
+            allRight: true,
+          });
         }
-      })
-        .catch(err => {
-          console.log(err.message)
-        })
+      });
     }
   }
 
   render() {
     const {
-      firstName, formErrors, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2, truePas
+      firstName, formErrors, formErr, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2, truePas, allRight
     } = this.state;
-    console.log(truePas);
-    console.log(brthDay)
+    if (allRight) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="wrap-reg">
         <form
@@ -202,32 +207,33 @@ class RegistrationForm extends React.Component {
                 onChange={this.handleUserInput}
                 required
               />
+              <Error hide={formErr} content={formErrors.emailError} />
             </div>
+          </div>
+          <div className="pas-wrap">
+            <div>
+              <label htmlFor="">Пароль</label>
+              <br />
+              <input
+                type="password"
+                name="pas1"
+                value={pas1}
+                onChange={this.handleUserInput}
+                required
+              />
             </div>
-            <div className="pas-wrap">
-              <div>
-                <label htmlFor="">Пароль</label>
-                <br />
-                <input
-                  type="password"
-                  name="pas1"
-                  value={pas1}
-                  onChange={this.handleUserInput}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="">Повторите пароль</label>
-                <br />
-                <input
-                  type="password"
-                  name="pas2"
-                  value={pas2}
-                  onChange={this.handleUserInput}
-                  required
-                />
-              </div>
+            <div>
+              <label htmlFor="">Повторите пароль</label>
+              <br />
+              <input
+                type="password"
+                name="pas2"
+                value={pas2}
+                onChange={this.handleUserInput}
+                required
+              />
             </div>
+          </div>
           <Error hide={truePas} content={formErrors.pasError} />
           <Button
             type="submit"
