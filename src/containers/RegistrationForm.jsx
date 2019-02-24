@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 import axios from 'axios';
-import { telMask, dateMask } from '../utils/Masks';
-// import Error from './error.jsx';
+import Error from '../components/error.jsx';
 import '../styles/register.scss';
 
 class RegistrationForm extends React.Component {
@@ -12,6 +12,7 @@ class RegistrationForm extends React.Component {
     this.formHandler = this.formHandler.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.checkPas = this.checkPas.bind(this);
+    this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.state = {
       firstName: '',
       secondName: '',
@@ -27,6 +28,7 @@ class RegistrationForm extends React.Component {
         pasError: 'Пароли не совпадают',
         emailError: 'Проверьте email',
       },
+      truePas: true,
       formErr: false,
     };
   }
@@ -34,10 +36,12 @@ class RegistrationForm extends React.Component {
   checkPas() {
     const { pas1 } = this.state;
     const { pas2 } = this.state;
+    console.log(pas1);
+    console.log(pas2);
     if (pas1 === pas2) {
       this.setState({ truePas: true });
     } else {
-      console.log('Wrong password');
+      this.setState({ truePas: false });
     }
   }
 
@@ -47,13 +51,27 @@ class RegistrationForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  beforeMaskedValueChange(newState, oldState, userInput) {
+    let { value, selection } = newState;
+    const { brthDay } = this.state;
+    let cursorPosition = selection ? selection.start : null;
+    if (value.endsWith('-') && userInput !== '-' && !brthDay.endsWith('-')) {
+      if (cursorPosition === value.length) {
+        cursorPosition--;
+        selection = { start: cursorPosition, end: cursorPosition };
+      }
+      value = value.slice(0, -1);
+    }
+    return { value, selection };
+  }
+
   formHandler(e) {
     e.preventDefault();
     this.checkPas();
     const {
       firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
     } = this.state;
-    if (pas1 === pas2) {
+    if (this.truePas) {
       axios.post('http://localhost:5000/register', {
         firstName,
         secondName,
@@ -70,26 +88,27 @@ class RegistrationForm extends React.Component {
         } else {
           console.log('user was added');
         }
-      });
+      })
+        .catch(err => {
+          console.log(err.message)
+        })
     }
-  }
-
-  componentDidMount() {
-    telMask('tel');
-    dateMask('date');
   }
 
   render() {
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName, formErrors, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2, truePas
     } = this.state;
-    const { truePas } = this.state;
-    if (truePas) {
-      return <Redirect to="/" />;
-    }
+    console.log(truePas);
+    console.log(brthDay)
     return (
-      <div>
-        <form>
+      <div className="wrap-reg">
+        <form
+          className="reg-form"
+          action="http://localhost:5000/register"
+          method="POST"
+          onSubmit={this.formHandler}
+        >
           <h2>Регистрация</h2>
           <div className="main-info">
             <label
@@ -144,14 +163,13 @@ class RegistrationForm extends React.Component {
             </div>
           </div>
           <label htmlFor="">Дата рождения</label>
-          <input
-            type="text"
-            pattern="\d{2}.\d{2}.\d{4}"
+          <InputMask
             name="brthDay"
-            id="date"
+            mask="99/99/9999"
             value={brthDay}
             onChange={this.handleUserInput}
-            required
+            alwaysShowMask={true}
+            beforeMaskedValueChange={this.beforeMaskedValueChange}
           />
           <label htmlFor="">Должность</label>
           <input
@@ -165,15 +183,13 @@ class RegistrationForm extends React.Component {
             <div>
               <label htmlFor="">Телефон</label>
               <br />
-              <input
-                type="text"
+              <InputMask
                 name="telephone"
-                id="tel"
-                pattern="[\+]\d{3}\s[\(]\d{2}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
+                mask="+375 (99) 999-99-99"
                 value={telephone}
-                placeholder="+375 (00) 000-00-00"
                 onChange={this.handleUserInput}
-                required
+                alwaysShowMask={true}
+                beforeMaskedValueChange={this.beforeMaskedValueChange}
               />
             </div>
             <div>
@@ -187,36 +203,37 @@ class RegistrationForm extends React.Component {
                 required
               />
             </div>
-          </div>
-          <div className="pas-wrap">
-            <div>
-              <label htmlFor="">Пароль</label>
-              <br />
-              <input
-                type="password"
-                name="pas1"
-                value={pas1}
-                onChange={this.handleUserInput}
-                required
-              />
             </div>
-            <div>
-              <label htmlFor="">Повторите пароль</label>
-              <br />
-              <input
-                type="password"
-                name="pas2"
-                value={pas2}
-                onChange={this.handleUserInput}
-                required
-              />
+            <div className="pas-wrap">
+              <div>
+                <label htmlFor="">Пароль</label>
+                <br />
+                <input
+                  type="password"
+                  name="pas1"
+                  value={pas1}
+                  onChange={this.handleUserInput}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="">Повторите пароль</label>
+                <br />
+                <input
+                  type="password"
+                  name="pas2"
+                  value={pas2}
+                  onChange={this.handleUserInput}
+                  required
+                />
+              </div>
             </div>
-          </div>
+          <Error hide={truePas} content={formErrors.pasError} />
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             className="btn"
-            onClick={this.formHandler}
           >
             Зарегистрироваться
           </Button>

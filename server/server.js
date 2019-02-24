@@ -99,10 +99,10 @@ app.post('/login', (req, res) => {
           }
         });
       } else {
-        res.status(418).send({ message: 'Неверный пароль' });
+        res.status(418).json({ message: 'Неверный пароль' });
       }
     } else {
-      res.status(406).send({ message: 'Неверный логин' });
+      res.status(406).json({ message: 'Неверный логин' });
     }
   });
 });
@@ -119,9 +119,10 @@ app.post('/register', (req, res) => {
     pas: req.body.pas,
     photo: req.body.photo,
   };
+  console.log(userData);
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
-      res.status(400).send({ message: 'Такой пользователь уже есть' });
+      res.json({ error: 'Такой пользователь уже есть' });// status code 400
     } else {
       const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
                       birthday_date, position, telefone, photo) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
