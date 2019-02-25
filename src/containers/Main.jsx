@@ -7,7 +7,6 @@ import Menu from '../components/Menu.jsx';
 import MainPageRouter from '../routes/main_page.jsx';
 import '../styles/main.scss';
 
-
 class Main extends React.Component {
 
   componentDidMount() {

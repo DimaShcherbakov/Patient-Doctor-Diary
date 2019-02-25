@@ -24,7 +24,7 @@ const getMenuData = (state = INITIAL_STATE, action) => (
     ...state,
     fN: action.fN,
     lN: action.lN,
-    tN: action.lN,
+    tN: action.tN,
   }
 );
 
