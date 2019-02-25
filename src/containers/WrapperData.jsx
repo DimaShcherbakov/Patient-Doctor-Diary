@@ -6,9 +6,10 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import InputBase from '@material-ui/core/InputBase';
 import getListPatients from '../actions/patientsReducer';
-import RegPatient from '../components/RegPatient.jsx';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
+// import { Link } from 'react-router-dom';
+import FormRegPatient from '../containers/FormRegPatient.jsx';
 
 class WrapperData extends React.Component {
   constructor() {
@@ -87,24 +88,16 @@ class WrapperData extends React.Component {
               <div className="searchIcon">
                 <SearchIcon />
               </div>
-              <InputBase
-                placeholder="Search…"
-              />
+              <InputBase placeholder="Search…" />
             </div>
           </div>
-          <Fab
-            color="primary"
-            aria-label="Add"
-            className="add-pers"
-            onClick={this.showPopup}
-          >
+          <Fab color="primary" aria-label="Add" className="add-pers" onClick={this.showPopup}>
             <AddIcon />
           </Fab>
         </div>
-        <RegPatient
-          show={showPopup}
-          hide={this.hidePopup}
-        />
+
+        <FormRegPatient show={showPopup} hide={this.hidePopup} />
+
         <div className="wrap-cards">
           {listPatients}
         </div>

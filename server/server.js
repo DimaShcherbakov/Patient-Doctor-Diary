@@ -90,6 +90,7 @@ app.post('/login', (req, res) => {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
+            console.log()
             res.json({
               token,
               id: rows[0].id_registr_info,
@@ -141,6 +142,7 @@ app.get('/user/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM `registration_info` WHERE id_registr_info = ?';
   connection.query(query, [id], async (err, rows, fields) => {
+    console.log(rows[0]);
     if (err) {
       res.status(500);
     } else {

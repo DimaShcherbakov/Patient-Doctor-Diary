@@ -116,10 +116,7 @@ class RegistrationForm extends React.Component {
         >
           <h2>Регистрация</h2>
           <div className="main-info">
-            <label
-              className="avatar"
-              htmlFor="avatar"
-            >
+            <label className="avatar" htmlFor="avatar">
               <div className="plus">
                 <input
                   type="file"
@@ -131,11 +128,7 @@ class RegistrationForm extends React.Component {
               </div>
             </label>
             <div className="person-data">
-              <label
-                htmlFor="secondName"
-              >
-                Фамилия
-              </label>
+              <label htmlFor="secondName">Фамилия</label>
               <input
                 type="text"
                 name="secondName"
@@ -144,11 +137,7 @@ class RegistrationForm extends React.Component {
                 onChange={this.handleUserInput}
                 required
               />
-              <label
-                htmlFor="firstName"
-              >
-                Имя
-              </label>
+              <label htmlFor="firstName">Имя</label>
               <input
                 type="text"
                 name="firstName"
@@ -192,6 +181,7 @@ class RegistrationForm extends React.Component {
                 name="telephone"
                 mask="+375 (99) 999-99-99"
                 value={telephone}
+                placeholder="+375 (00) 000-00-00"
                 onChange={this.handleUserInput}
                 alwaysShowMask={true}
                 beforeMaskedValueChange={this.beforeMaskedValueChange}

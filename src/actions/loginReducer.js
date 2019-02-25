@@ -7,6 +7,7 @@ export function checkData(loginData) {
       .then((res) => {
         localStorage.token = res.data.token;
         localStorage.userId = res.data.id;
+        console.log(res);
         dispatch(Creators.loginSuccess(res.data.token, res.data.id));
       })
       .catch((err) => {
