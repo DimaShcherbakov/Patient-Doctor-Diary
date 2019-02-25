@@ -14,7 +14,7 @@ const RegPatient = (props) => {
         onClick={hide}
       />
     </div>
-  )
+  );
 };
 
 export default RegPatient;

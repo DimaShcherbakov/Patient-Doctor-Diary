@@ -1,11 +1,10 @@
 import React from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import validateEmail from '../utils/validateEmail';
 import { Button } from '@material-ui/core';
+import validateEmail from '../utils/validateEmail';
 import Error from '../components/error.jsx';
-import { enterState } from '../actions/reducerActions';
+import { checkData } from '../actions/loginReducer';
 import '../styles/form.scss';
 
 class Form extends React.Component {
@@ -13,17 +12,14 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.userEnter = this.userEnter.bind(this);
     this.state = {
       email: '',
       password: '',
       formErrors: {
         email: 'Неверная почта',
-        password: 'Неверный пароль',
         unRegistered: 'Проверьте логин и пароль',
       },
       emailValid: true,
-      authorised: false,
     };
   }
 
@@ -41,35 +37,13 @@ class Form extends React.Component {
     }
   }
 
-  userEnter(e) {
-    e.preventDefault();
-    const { email } = this.state;
-    const { password } = this.state;
-    if (email !== '' && password !== '') {
-      axios.post('http://localhost:5000/login/', {
-        email: email,
-        password: password,
-      })
-        .then((res) => {
-          console.log(res.data.token);
-          localStorage.token = res.data.token;
-          this.setState({
-            email: '',
-            password: '',
-            authorised: true,
-          });
-        })
-        .catch(err => console.log(err));
-    }
-  }
-
   render() {
     const { emailValid } = this.state;
     const { formErrors } = this.state;
-    const { authorised } = this.state;
     const { email } = this.state;
     const { password } = this.state;
-    if (authorised) {
+    const { isAuthorised } = this.props.enter;
+    if (isAuthorised) {
       return (
         <Redirect to="/main" />
       );
@@ -86,7 +60,7 @@ class Form extends React.Component {
           value={email}
           onChange={this.handleUserInput}
         />
-        {emailValid ? '' : <Error content={formErrors.email} />}
+        {/* {emailValid ? '' : <Error content={formErrors.email} />} */}
         <label htmlFor="password">Enter your password</label>
         <input
           type="password"
@@ -100,12 +74,11 @@ class Form extends React.Component {
           variant="contained"
           color="primary"
           className="btn"
-          onClick={this.userEnter}
+          onClick={() => { (email !== '' && password !== '') ? this.props.checkData({ email, password}) : console.log('Некорректные данные')} }
         >
           Enter
         </Button>
         <p className="links">
-          {console.log(this.props.enter.enterUser)}
           <Link to="/password">Забыли пароль?</Link>
           <span> | </span>
           <Link to="/register">Регистрация</Link>
@@ -117,13 +90,13 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    enter: state.enter,
+    enter: state.login,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    enterState: (show) => {
-      dispatch(enterState(show));
+    checkData: (data) => {
+      dispatch(checkData(data));
     },
   };
 };

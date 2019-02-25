@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 import axios from 'axios';
-// import Error from './error.jsx';
+import Error from '../components/error.jsx';
 import '../styles/register.scss';
 
 class RegistrationForm extends React.Component {
@@ -11,6 +12,7 @@ class RegistrationForm extends React.Component {
     this.formHandler = this.formHandler.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.checkPas = this.checkPas.bind(this);
+    this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.state = {
       firstName: '',
       secondName: '',
@@ -24,19 +26,23 @@ class RegistrationForm extends React.Component {
       pas2: '',
       formErrors: {
         pasError: 'Пароли не совпадают',
-        emailError: 'Проверьте email',
+        emailError: 'Пользователь с таким email уже существует',
       },
-      formErr: false,
+      truePas: true,
+      formErr: true,
+      allRight: false,
     };
   }
 
   checkPas() {
     const { pas1 } = this.state;
     const { pas2 } = this.state;
+    console.log(pas1);
+    console.log(pas2);
     if (pas1 === pas2) {
       this.setState({ truePas: true });
     } else {
-      console.log('Wrong password');
+      this.setState({ truePas: false });
     }
   }
 
@@ -46,13 +52,27 @@ class RegistrationForm extends React.Component {
     this.setState({ [name]: value });
   }
 
+  beforeMaskedValueChange(newState, oldState, userInput) {
+    let { value, selection } = newState;
+    const { brthDay } = this.state;
+    let cursorPosition = selection ? selection.start : null;
+    if (value.endsWith('-') && userInput !== '-' && !brthDay.endsWith('-')) {
+      if (cursorPosition === value.length) {
+        cursorPosition--;
+        selection = { start: cursorPosition, end: cursorPosition };
+      }
+      value = value.slice(0, -1);
+    }
+    return { value, selection };
+  }
+
   formHandler(e) {
     e.preventDefault();
     this.checkPas();
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, truePas,
     } = this.state;
-    if (pas1 === pas2) {
+    if (truePas) {
       axios.post('http://localhost:5000/register', {
         firstName,
         secondName,
@@ -64,10 +84,16 @@ class RegistrationForm extends React.Component {
         pas: pas1,
         photo: image,
       }).then((res) => {
-        if (res.message) {
-          console.log('User is already existed');
+        console.log(res);
+        if (res.data.error) {
+          this.setState({
+            email: '',
+            formErr: false,
+          });
         } else {
-          console.log('user was added');
+          this.setState({
+            allRight: true,
+          });
         }
       });
     }
@@ -75,15 +101,19 @@ class RegistrationForm extends React.Component {
 
   render() {
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2,
+      firstName, formErrors, formErr, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2, truePas, allRight
     } = this.state;
-    const { truePas } = this.state;
-    if (truePas) {
+    if (allRight) {
       return <Redirect to="/" />;
     }
     return (
-      <div>
-        <form>
+      <div className="wrap-reg">
+        <form
+          className="reg-form"
+          action="http://localhost:5000/register"
+          method="POST"
+          onSubmit={this.formHandler}
+        >
           <h2>Регистрация</h2>
           <div className="main-info">
             <label
@@ -138,13 +168,13 @@ class RegistrationForm extends React.Component {
             </div>
           </div>
           <label htmlFor="">Дата рождения</label>
-          <input
-            type="date"
-            pattern="\d{1,2}/\d{1,2}/\d{4}"
+          <InputMask
             name="brthDay"
+            mask="99/99/9999"
             value={brthDay}
             onChange={this.handleUserInput}
-            required
+            alwaysShowMask={true}
+            beforeMaskedValueChange={this.beforeMaskedValueChange}
           />
           <label htmlFor="">Должность</label>
           <input
@@ -158,15 +188,13 @@ class RegistrationForm extends React.Component {
             <div>
               <label htmlFor="">Телефон</label>
               <br />
-              <input
-                type="tel"
+              <InputMask
                 name="telephone"
-                pattern="[\+]\d{3}\s[\(]\d{2}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}"
-                minLength="19"
-                maxLength="19"
+                mask="+375 (99) 999-99-99"
                 value={telephone}
                 onChange={this.handleUserInput}
-                required
+                alwaysShowMask={true}
+                beforeMaskedValueChange={this.beforeMaskedValueChange}
               />
             </div>
             <div>
@@ -179,6 +207,7 @@ class RegistrationForm extends React.Component {
                 onChange={this.handleUserInput}
                 required
               />
+              <Error hide={formErr} content={formErrors.emailError} />
             </div>
           </div>
           <div className="pas-wrap">
@@ -205,11 +234,12 @@ class RegistrationForm extends React.Component {
               />
             </div>
           </div>
+          <Error hide={truePas} content={formErrors.pasError} />
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             className="btn"
-            onClick={this.formHandler}
           >
             Зарегистрироваться
           </Button>

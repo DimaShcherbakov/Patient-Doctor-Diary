@@ -1,42 +1,47 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../actions/loginReducer';
 import '../styles/header.scss';
 
-class Header extends React.Component {
-
-  constructor() {
-    super();
-    this.userExit = this.userExit.bind(this);
-    this.state = {
-      exit: false,
-    };
+const Header = (props) => {
+  const { data } = props;
+  const exit = 'Выйти';
+  if (data.isAuthorised === false) {
+    return <Redirect to="/" />;
   }
-
-  userExit() {
-    this.setState({
-      exit: true,
-    });
-  }
-
-  render() {
-    const { exit } = this.state;
-    if (exit) {
-      return <Redirect to="/" />;
-    }
-    return (
-      <header className="header">
-        <div className="exit">
-          <button
-            type="submit"
-            className="user-exit"
-            onClick={this.userExit}
-          >
-            Выйти
-          </button>
-        </div>
-      </header>
-    );
-  }
+  return (
+    <header className="header">
+      <div className="exit">
+        <button
+          type="submit"
+          className="user-exit"
+          onClick={() => (props.logout())}
+        >
+          {exit}
+        </button>
+      </div>
+    </header>
+  );
 };
 
-export default Header;
+Header.propTypes = {
+  data: PropTypes.object,
+  logout: PropTypes.func,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.login,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => {
+      dispatch(logout());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

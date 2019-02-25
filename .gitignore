@@ -1,4 +1,6 @@
 .vscode
 node_modules
+debug.log
 server/node_modules
+server/html.html
 bash.exe.stackdump
