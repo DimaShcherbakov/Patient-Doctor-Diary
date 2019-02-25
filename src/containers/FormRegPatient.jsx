@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import InputMask from 'react-input-mask';
+import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import '../styles/registerPeople.scss';
 import '../styles/refPat.scss';
-import CloseIcon from '@material-ui/icons/Close';
 
 class FormRegPatient extends Component {
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
+    this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.onClose = this.onClose.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
     this.state = {
       surname: '',
       name: '',
@@ -21,9 +23,14 @@ class FormRegPatient extends Component {
       password: '',
       confirmPassword: '',
       telephone: '',
-      password_has_error: false,
+      passwordError: false,
     };
     this.baseState = this.state;
+  }
+
+  onClose(e) {
+    this.setState(this.baseState);
+    this.props.hide(e);
   }
 
   checkPassword() {
@@ -34,27 +41,44 @@ class FormRegPatient extends Component {
     }
   }
 
-  onChange(e) {
-    const { name, value } = e.target;
-    this.setState(
-      {
-        [name]: value,
-      },
-      () => {
-        if (name == 'password' || name == 'confirmPassword') this.checkPassword();
-      },
-    );
+  handleUserInput(e) {
+    const { name } = e.target;
+    const { value } = e.target;
+    this.setState({ [name]: value });
   }
 
-  onClose(e) {
-    this.setState(this.baseState);
-    this.props.hide(e);
+  beforeMaskedValueChange(newState, oldState, userInput) {
+    let { value, selection } = newState;
+    const { brthDay } = this.state;
+    let cursorPosition = selection ? selection.start : null;
+    if (value.endsWith('-') && userInput !== '-' && !brthDay.endsWith('-')) {
+      if (cursorPosition === value.length) {
+        cursorPosition--;
+        selection = { start: cursorPosition, end: cursorPosition };
+      }
+      value = value.slice(0, -1);
+    }
+    return { value, selection };
   }
 
   render() {
+    const {
+      bday, telephone,
+      surname, name,
+      middleName, job,
+      registration, passwordError,
+      file, email, password,
+      confirmPassword,
+    } = this.state;
+    const { show } = this.props;
     return (
-      <div className={`registr-popup ${this.props.show ? '' : 'hide-popup'}`}>
-        <form className="registerPeople">
+      <div className={`registr-popup ${show ? '' : 'hide-popup'}`}>
+        <form
+          className="registerPeople"
+          acton=""
+          method="POST"
+          // onSubmit={}
+        >
           <CloseIcon className="cross" onClick={this.onClose} />
           <span className="formName">Регистрация Пациента</span>
           <div className="wrap-input">
@@ -62,16 +86,16 @@ class FormRegPatient extends Component {
               type="text"
               name="surname"
               placeholder="Фамилия"
-              onChange={e => this.onChange(e)}
-              value={this.state.surname}
+              onChange={this.handleUserInput}
+              value={surname}
               required
             />
             <input
               type="text"
               name="name"
               placeholder="Имя"
-              onChange={e => this.onChange(e)}
-              value={this.state.name}
+              onChange={this.handleUserInput}
+              value={name}
               required
             />
           </div>
@@ -80,32 +104,34 @@ class FormRegPatient extends Component {
               type="text"
               name="middleName"
               placeholder="Отчество"
-              onChange={e => this.onChange(e)}
-              value={this.state.middleName}
+              onChange={this.handleUserInput}
+              value={middleName}
               required
             />
-            <input
-              type="date"
+            <InputMask
               name="bday"
-              onChange={e => this.onChange(e)}
-              value={this.state.bday}
-              required
+              mask="99/99/9999"
+              value={bday}
+              onChange={this.handleUserInput}
+              alwaysShowMask={true}
+              beforeMaskedValueChange={this.beforeMaskedValueChange}
             />
           </div>
-          <input
-            type="tel"
+          <InputMask
             name="telephone"
-            placeholder="Номер телефона"
-            onChange={e => this.onChange(e)}
-            value={this.state.telephone}
-            required
+            mask="+375 (99) 999-99-99"
+            value={telephone}
+            placeholder="+375 (00) 000-00-00"
+            onChange={this.handleUserInput}
+            alwaysShowMask={true}
+            beforeMaskedValueChange={this.beforeMaskedValueChange}
           />
           <input
             type="text"
             name="job"
             placeholder="Место Работы"
-            onChange={e => this.onChange(e)}
-            value={this.state.job}
+            onChange={this.handleUserInput}
+            value={job}
             required
           />
           <div className="wrap-input">
@@ -113,8 +139,8 @@ class FormRegPatient extends Component {
               type="text"
               name="registration"
               placeholder="Место Регистрации"
-              onChange={e => this.onChange(e)}
-              value={this.state.registration}
+              onChange={this.handleUserInput}
+              value={registration}
               required
             />
             <input
@@ -122,8 +148,8 @@ class FormRegPatient extends Component {
               name="file"
               data-buttonText="Фото"
               accept=".jpg, .jpeg, .png"
-              onChange={e => this.onChange(e)}
-              value={this.state.file}
+              onChange={this.handleUserInput}
+              value={file}
             />
           </div>
           <label>
@@ -132,8 +158,8 @@ class FormRegPatient extends Component {
               name="email"
               placeholder="E-mail"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-              onChange={e => this.onChange(e)}
-              value={this.state.email}
+              onChange={this.handleUserInput}
+              value={email}
               required
             />
           </label>
@@ -142,21 +168,21 @@ class FormRegPatient extends Component {
               type="password"
               name="password"
               placeholder="Пароль"
-              onChange={e => this.onChange(e)}
-              value={this.state.password}
+              onChange={this.handleUserInput}
+              value={password}
               required
             />
             <input
               type="password"
-              className={this.state.password_has_error ? 'errorInput' : 'confirmPass'}
+              className={passwordError ? 'errorInput' : 'confirmPass'}
               name="confirmPassword"
               placeholder="Подтвердите пароль"
-              value={this.state.confirmPassword}
-              onChange={e => this.onChange(e)}
+              value={confirmPassword}
+              onChange={this.handleUserInput}
               required
             />
           </div>
-          <span className={this.state.password_has_error ? 'appendError' : 'hideError'}>
+          <span className={passwordError ? 'appendError' : 'hideError'}>
             Пароли не совпадают
           </span>
           <button type="submit">Подтвердить</button>
@@ -167,6 +193,6 @@ class FormRegPatient extends Component {
 }
 export default FormRegPatient;
 FormRegPatient.propTypes = {
-  show: PropTypes.boolean,
+  show: PropTypes.func,
   hide: PropTypes.func,
 };
