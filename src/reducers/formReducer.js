@@ -3,6 +3,7 @@ import { createActions, createReducer } from 'reduxsauce';
 export const { Types, Creators } = createActions({
   addPatient: [],
   addDoctor: [],
+  reset: [],
 });
 
 const INITIAL_STATE = {
@@ -16,6 +17,13 @@ const addPatient = (state = INITIAL_STATE, action) => (
   }
 );
 
+const reset = (state = INITIAL_STATE, action) => (
+  {
+    ...state,
+    success: false,
+  }
+);
+
 const addDoctor = (state = INITIAL_STATE, action) => (
   {
     ...state,
@@ -26,6 +34,7 @@ const addDoctor = (state = INITIAL_STATE, action) => (
 export const HANDLERS = {
   [Types.ADD_DOCTOR]: addDoctor,
   [Types.ADD_PATIENT]: addPatient,
+  [Types.RESET]: reset,
 };
 
 const formReducer = createReducer(INITIAL_STATE, HANDLERS);

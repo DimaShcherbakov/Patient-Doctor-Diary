@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import loginReducer from './reducers/loginReducer';
 import menuReducer from './reducers/menuReducer';
 import patientsReducer from './reducers/patientsReducer';
+import formReducer from './reducers/formReducer';
 
 const middleware = [thunk];
 
@@ -11,6 +12,7 @@ export default createStore(
     login: loginReducer,
     menu: menuReducer,
     patients: patientsReducer,
+    form: formReducer,
   }),
   {},
   applyMiddleware(...middleware),

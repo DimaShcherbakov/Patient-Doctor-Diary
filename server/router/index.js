@@ -27,13 +27,10 @@ router.post('/login', (req, res) => {
   console.log(user)
   const query = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
-    console.log(rows[0]);
     if (rows[0]) {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
-            console.log(token)
-            console.log(rows[0].id_registr_info)
             res.send({
               token,
               id: rows[0].id_registr_info,
@@ -63,7 +60,6 @@ router.post('/register', (req, res) => {
     pas: req.body.pas,
     photo: req.body.photo,
   };
-  console.log(userData);
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
       res.json({ error: 'Такой пользователь уже есть' });// status code 400
@@ -138,17 +134,20 @@ router.get('/user/:id/:sort/patients/', (req, res) => {
   }
 });
 
-router.post('/registration/patient/', (req, res) => {
+router.post('/registration/patient', (req, res) => {
   const data = req.body;
+  const {
+    id, name, surname, middleName, bday, telephone, job, registration, email, password,
+  } = data;
   console.log(data);
-  const {id, fN, lN, tN, bD, tel, wP, rP, email, pas } = data;
   const query = `INSERT INTO pacients_data (id_pacient, id_registr_info, first_name, last_name, third_name, brth_day, reg_place, work_place, phone, photo, email, pas, pacients_data_analyse) VALUES 
                 (NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL)`;
-  connection.query(query, [id, fN, lN, tN, bD, rP, wP, tel, email, pas], (err, rows, fields) => {
+  connection.query(query, [id, name, surname, middleName, bday, registration, job, telephone, email, password], (err, rows, fields) => {
     if (err) {
       res.status(500);
     } else {
-      res.json(rows);
+      console.log(rows);
+      res.send(rows);
     }
   });
 });

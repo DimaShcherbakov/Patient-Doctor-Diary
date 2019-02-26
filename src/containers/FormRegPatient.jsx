@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import InputMask from 'react-input-mask';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addPatient } from '../actions/formReducer';
 import '../styles/registerPeople.scss';
 import '../styles/refPat.scss';
 
@@ -65,8 +67,10 @@ class FormRegPatient extends Component {
   }
 
   sendForm(e) {
-    e.preventDefault(e)
-    const data = {...this.state, id: parseInt(localStorage.userId, 10)};
+    e.preventDefault();
+    const { addPatient } = this.props;
+    const data = { ...this.state, id: parseInt(localStorage.userId, 10) };
+    addPatient(data);
     console.log(data);
     this.onClose();
   }
@@ -81,6 +85,7 @@ class FormRegPatient extends Component {
       confirmPassword,
     } = this.state;
     const { show } = this.props;
+    console.log(this.props);
     return (
       <div className={`registr-popup ${show ? '' : 'hide-popup'}`}>
         <form
@@ -201,7 +206,20 @@ class FormRegPatient extends Component {
     );
   }
 }
-export default FormRegPatient;
+
+const mapStateToProps = state => (
+  { form: state.form }
+);
+const mapDispatchToProps = dispatch => (
+  {
+    addPatient: (data) => {
+      dispatch(addPatient(data));
+    },
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormRegPatient);
+
 FormRegPatient.propTypes = {
   hide: PropTypes.func,
 };

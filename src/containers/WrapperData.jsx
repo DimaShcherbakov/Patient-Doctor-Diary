@@ -6,6 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import InputBase from '@material-ui/core/InputBase';
 import getListPatients from '../actions/patientsReducer';
+import { reset } from '../actions/formReducer';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
 // import { Link } from 'react-router-dom';
@@ -46,7 +47,7 @@ class WrapperData extends React.Component {
     const { getListPatients } = this.props;
     const { patients } = this.props;
     const id = localStorage.userId;
-
+    const { form, reset } = this.props;
     const listPatients = patients.dataArr.map(element => (
       <Card
         key={element.id_pacient}
@@ -58,7 +59,11 @@ class WrapperData extends React.Component {
         }}
       />
     ));
-    console.log(patients);
+    console.log(form.success);
+    if (form.success) {
+      reset();
+      getListPatients(id, 'norm');
+    }
     return (
       <div className="wrapper-data">
         <div className="nav-panel">
@@ -109,6 +114,7 @@ class WrapperData extends React.Component {
 const mapStateToProps = (state) => {
   return {
     patients: state.patients,
+    form: state.form,
   };
 };
 
@@ -116,6 +122,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getListPatients: (id, sortType) => {
       dispatch(getListPatients(id, sortType));
+    },
+    reset: () => {
+      dispatch(reset());
     },
   };
 };
