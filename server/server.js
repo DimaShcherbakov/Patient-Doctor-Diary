@@ -14,6 +14,19 @@ const port = 5000;
 //----------------
 app.use(upload());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'POST, GET, PUT, DELETE, OPTIONS',
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.post('/fileupload', (req, res) => {
   if (req.files) {
     const file = req.files.filename;
@@ -85,12 +98,11 @@ app.post('/login', (req, res) => {
   };
   const query = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
-    console.log(rows[0])
+    console.log(rows[0]);
     if (rows[0]) {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
-            console.log()
             res.json({
               token,
               id: rows[0].id_registr_info,

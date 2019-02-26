@@ -9,7 +9,7 @@ import getListPatients from '../actions/patientsReducer';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
 // import { Link } from 'react-router-dom';
-import FormRegPatient from '../containers/FormRegPatient.jsx';
+import FormRegPatient from './FormRegPatient.jsx';
 
 class WrapperData extends React.Component {
   constructor() {

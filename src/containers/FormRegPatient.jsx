@@ -10,6 +10,7 @@ class FormRegPatient extends Component {
     super(props);
     this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.onClose = this.onClose.bind(this);
+    this.sendForm = this.sendForm.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.state = {
       surname: '',
@@ -25,16 +26,18 @@ class FormRegPatient extends Component {
       telephone: '',
       passwordError: false,
     };
-    this.baseState = this.state;
+    this.baseState = { ...this.state };
   }
 
   onClose(e) {
+    const { hide } = this.props;
     this.setState(this.baseState);
-    this.props.hide(e);
+    hide(e);
   }
 
   checkPassword() {
-    if (!this.state.password || this.state.password != this.state.confirmPassword) {
+    const { password, confirmPassword } = this.state;
+    if (!password || password !== confirmPassword) {
       this.setState({ password_has_error: true });
     } else {
       this.setState({ password_has_error: false });
@@ -61,6 +64,12 @@ class FormRegPatient extends Component {
     return { value, selection };
   }
 
+  sendForm(e) {
+    e.preventDefault(e);
+    console.log(this.state);
+    this.onClose();
+  }
+
   render() {
     const {
       bday, telephone,
@@ -77,7 +86,7 @@ class FormRegPatient extends Component {
           className="registerPeople"
           acton=""
           method="POST"
-          // onSubmit={}
+          onSubmit={this.sendForm}
         >
           <CloseIcon className="cross" onClick={this.onClose} />
           <span className="formName">Регистрация Пациента</span>
@@ -193,6 +202,5 @@ class FormRegPatient extends Component {
 }
 export default FormRegPatient;
 FormRegPatient.propTypes = {
-  show: PropTypes.func,
   hide: PropTypes.func,
 };

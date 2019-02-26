@@ -26,7 +26,7 @@ class RegistrationForm extends React.Component {
       pas2: '',
       formErrors: {
         pasError: 'Пароли не совпадают',
-        emailError: 'Пользователь с таким email уже существует',
+        emailError: 'Пользователь уже существует',
       },
       truePas: true,
       formErr: true,
@@ -101,7 +101,20 @@ class RegistrationForm extends React.Component {
 
   render() {
     const {
-      firstName, formErrors, formErr, secondName, thirdName, brthDay, position, telephone, email, pas1, image, pas2, truePas, allRight
+      firstName,
+      formErrors,
+      formErr,
+      secondName,
+      thirdName,
+      brthDay,
+      position,
+      telephone,
+      email,
+      pas1,
+      image,
+      pas2,
+      truePas,
+      allRight,
     } = this.state;
     if (allRight) {
       return <Redirect to="/" />;
