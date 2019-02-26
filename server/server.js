@@ -13,12 +13,21 @@ const app = express();
 const port = 5000;
 //----------------
 app.use(upload());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 app.post('/fileupload', (req, res) => {
   if (req.files) {
     const file = req.files.filename;
     const filename = file.name;
-    file.mv(`./patients_analizes/${filename}`, (err) => {
+    file.mv(`./patients_analizes/${filename}`, err => {
       if (err) {
         console.log(err);
         res.send('Error occured');
@@ -41,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 function verifyToken(req, res, next) {
-  const bearerHeader = req.headers['authorization']
+  const bearerHeader = req.headers['authorization'];
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
@@ -52,7 +61,7 @@ function verifyToken(req, res, next) {
   }
 }
 
-connection.connect((err) => {
+connection.connect(err => {
   if (err) {
     throw err;
   }
@@ -85,12 +94,12 @@ app.post('/login', (req, res) => {
   };
   const query = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
-    console.log(rows[0])
+    console.log(rows[0]);
     if (rows[0]) {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
-            console.log()
+            console.log();
             res.json({
               token,
               id: rows[0].id_registr_info,
@@ -121,21 +130,39 @@ app.post('/register', (req, res) => {
     photo: req.body.photo,
   };
   console.log(userData);
-  connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
-    if (rows[0]) {
-      res.json({ error: 'Такой пользователь уже есть' });// status code 400
-    } else {
-      const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
+  connection.query(
+    'SELECT email FROM registration_info WHERE email = ?',
+    [userData.em],
+    (err, rows, fields) => {
+      if (rows[0]) {
+        res.json({ error: 'Такой пользователь уже есть' }); // status code 400
+      } else {
+        const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
                       birthday_date, position, telefone, photo) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-      connection.query(query2, [userData.em, userData.pas, userData.fN, userData.lN, userData.tn, userData.bD, userData.pos, userData.tel, userData.photo], (err, rows, fields) => {
-        if (err) {
-          res.status(500);
-        } else {
-          res.json(rows);
-        }
-      });
-    }
-  });
+        connection.query(
+          query2,
+          [
+            userData.em,
+            userData.pas,
+            userData.fN,
+            userData.lN,
+            userData.tn,
+            userData.bD,
+            userData.pos,
+            userData.tel,
+            userData.photo,
+          ],
+          (err, rows, fields) => {
+            if (err) {
+              res.status(500);
+            } else {
+              res.json(rows);
+            }
+          },
+        );
+      }
+    },
+  );
 });
 
 app.get('/user/:id', (req, res) => {
@@ -161,7 +188,8 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
   const { sort } = req.params;
   const queryNorm = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ?';
   const queryASC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY last_name ASC';
-  const queryDESC = 'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY last_name DESC';
+  const queryDESC =
+    'SELECT * FROM `pacients_data` WHERE id_registr_info = ? ORDER BY last_name DESC';
   // const query = 'SELECT * FROM `pacients_data` LEFT JOIN `registration_info` ON `pacients_data`.`id_registr_info` = `registration_info`.`id_registr_info` WHERE `pacients_data`.`id_registr_info` = ?';
   switch (sort) {
     case 'norm':
@@ -191,7 +219,8 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
         }
       });
       break;
-    default: break;
+    default:
+      break;
   }
 });
 

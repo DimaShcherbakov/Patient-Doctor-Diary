@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import WrapperData from '../containers/WrapperData.jsx';
-import Profile from '../containers/Prosile.jsx';
+import Profile from '../containers/Profile.jsx';
 
 const MainPageRouter = () => (
   <Switch>

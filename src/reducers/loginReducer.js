@@ -9,7 +9,7 @@ export const { Types, Creators } = createActions({
 const INITIAL_STATE = {
   token: '',
   userId: '',
-  isAuthorised: false,
+  isAuthorised: true,
   error: false,
 };
 
