@@ -12,6 +12,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
     this.state = {
       email: '',
       password: '',
@@ -19,7 +20,7 @@ class Form extends React.Component {
         email: 'Неверная почта',
         unRegistered: 'Проверьте логин и пароль',
       },
-      emailValid: true,
+      emailValid: false,
     };
   }
 
@@ -37,6 +38,19 @@ class Form extends React.Component {
     }
   }
 
+  sendRequest(e) {
+    e.preventDefault(e);
+    const { email, password } = this.state;
+    const { checkData } = this.props;
+    if (email !== '' && password !== '') {
+      checkData({ email, password });
+    } else {
+      this.setState({
+        emailValid: true,
+      });
+    }
+  }
+
   render() {
     const { emailValid } = this.state;
     const { formErrors } = this.state;
@@ -51,6 +65,7 @@ class Form extends React.Component {
     return (
       <div className="form">
         <h1>Enter</h1>
+        {emailValid ? <Error content={formErrors.unRegistered} /> : '' }
         <label htmlFor="email">Enter your @mail</label>
         <input
           type="email"
@@ -58,9 +73,9 @@ class Form extends React.Component {
           id="email"
           placeholder="abcdej@mail.ru"
           value={email}
+          required
           onChange={this.handleUserInput}
         />
-        {/* {emailValid ? '' : <Error content={formErrors.email} />} */}
         <label htmlFor="password">Enter your password</label>
         <input
           type="password"
@@ -68,13 +83,14 @@ class Form extends React.Component {
           id="password"
           placeholder="jhvdofuqwy3"
           value={password}
+          required
           onChange={this.handleUserInput}
         />
         <Button
           variant="contained"
           color="primary"
           className="btn"
-          onClick={() => { (email !== '' && password !== '') ? this.props.checkData({ email, password}) : console.log('Некорректные данные')} }
+          onClick={ this.sendRequest }
         >
           Enter
         </Button>

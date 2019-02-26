@@ -1,82 +1,87 @@
-body{
+body {
   margin: 0;
-  h2{
-    text-align:center;
-    padding-bottom: 5px;
+  h2 {
+    text-align: center;
+    padding-bottom:5px;
     border-bottom: 1px solid gray;
+    margin: 0px;
   }
   .wrap-reg{
     position:absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: white;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    .reg-form {
-      display:flex;
+    form {
+      display: flex;
       flex-direction: column;
       max-width: 420px;
       padding: 10px 10px;
-      input{
-        padding:5px 5px;
+      margin: 0 auto;
+  
+      input {
+        padding: 5px 5px;
         border-radius: 5px;
         border: 2px solid black;
         margin: 7px 0px;
-        &:invalid{
+        &:invalid {
           border-color: red;
         }
-        &:valid{
+        &:valid {
           border-color: green;
         }
-        &:focus{
+        &:focus {
           outline: 0px;
         }
       }
-      .contact-wrap, .pas-wrap{
-        display:flex;
+      .contact-wrap,
+      .pas-wrap {
+        display: flex;
         justify-content: space-between;
       }
-      .main-info{
-        display:flex;
+      .main-info {
+        display: flex;
         justify-content: space-between;
+        padding-top: 5px;
       }
-      .person-data{
-        width:200px;
-        display:flex;
+      .person-data {
+        width: 200px;
+        display: flex;
         flex-direction: column;
       }
     }
   }
 }
 .avatar {
-  width:170px;
-  height:170px;
+  width: 170px;
+  height: 170px;
   border: 2px solid black;
-  border-radius:85px;
-  cursor:pointer;
-  &:hover{
+  border-radius: 85px;
+  cursor: pointer;
+  &:hover {
     border-color: blue;
   }
-  .plus{
+  .plus {
     background: gray;
-    height: 50px; 
+    height: 50px;
     width: 10px;
-    border-radius: 5px;  
-    position: relative; 
+    border-radius: 5px;
+    position: relative;
     left: 48%;
     top: 34%;
-    &::after{
-      content: "";
-      height: 10px; 
+    &::after {
+      content: '';
+      height: 10px;
       width: 50px;
       background: gray;
-      border-radius: 5px;  
-      position: absolute; 
-      left: -20px; 
+      border-radius: 5px;
+      position: absolute;
+      left: -20px;
       top: 43%;
     }
   }
-input{
-  display:none;
-}
+  input {
+    display: none;
+  }
 }

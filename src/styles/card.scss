@@ -1,6 +1,6 @@
-.card{
+.card {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
   width: 200px;
   border: 2px solid black;
@@ -9,14 +9,19 @@
   margin-right: 10px;
   .image-wrap{
     margin: 10px auto;
-    img{
-      width:180px;
+    img {
+      width: 180px;
       height: 180px;
     }
   }
-  p{
+  p {
+    text-decoration: none;
     display: flex;
     flex-direction: column;
     text-align: center;
   }
+}
+.card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
