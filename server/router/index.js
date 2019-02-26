@@ -141,9 +141,10 @@ router.get('/user/:id/:sort/patients/', (req, res) => {
 router.post('/registration/patient/', (req, res) => {
   const data = req.body;
   console.log(data);
+  const {id, fN, lN, tN, bD, tel, wP, rP, email, pas } = data;
   const query = `INSERT INTO pacients_data (id_pacient, id_registr_info, first_name, last_name, third_name, brth_day, reg_place, work_place, phone, photo, email, pas, pacients_data_analyse) VALUES 
-                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-  connection.query(query, [], (err, rows, fields) => {
+                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, NULL)`;
+  connection.query(query, [id, fN, lN, tN, bD, rP, wP, tel, email, pas], (err, rows, fields) => {
     if (err) {
       res.status(500);
     } else {
