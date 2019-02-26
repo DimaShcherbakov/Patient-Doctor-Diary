@@ -90,7 +90,9 @@ app.post('/login', (req, res) => {
       if (user.pas === rows[0].password) {
         jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
           if (token) {
-            res.json({
+            console.log(token)
+            console.log(rows[0].id_registr_info)
+            res.send({
               token,
               id: rows[0].id_registr_info,
             });
