@@ -65,8 +65,9 @@ class FormRegPatient extends Component {
   }
 
   sendForm(e) {
-    e.preventDefault(e);
-    console.log(this.state);
+    e.preventDefault(e)
+    const data = {...this.state, id: parseInt(localStorage.userId, 10)};
+    console.log(data);
     this.onClose();
   }
 
@@ -204,3 +205,17 @@ export default FormRegPatient;
 FormRegPatient.propTypes = {
   hide: PropTypes.func,
 };
+
+
+// {
+// 	"id": "13",
+// 	"fN": "Дима",
+// 	"lN": "Дима",
+// 	"tN": "Дима",
+// 	"bD": "Дима",
+// 	"tel": "Дима",
+// 	"wP": "Дима",
+// 	"rP": "Дима",
+// 	"email": "Дима",
+// 	"pas": "Дима"
+// }
