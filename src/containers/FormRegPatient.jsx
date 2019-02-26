@@ -84,7 +84,7 @@ class FormRegPatient extends Component {
       <div className={`registr-popup ${show ? '' : 'hide-popup'}`}>
         <form
           className="registerPeople"
-          acton=""
+          acton="http://localhost:5000/registration/patient"
           method="POST"
           onSubmit={this.sendForm}
         >

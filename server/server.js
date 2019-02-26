@@ -212,7 +212,7 @@ app.get('/user/:id/:sort/patients/', (req, res) => {
 app.post('/registration/patient/', (req, res) => {
   const data = req.body;
   const query = `INSERT INTO pacients_data (id_pacient, id_registr_info, first_name, last_name, third_name, brth_day, reg_place, work_place, phone, photo, email, pas, pacients_data_analyse) VALUES 
-                ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10],[value-11],[value-12],[value-13])`;
+                (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   connection.query(query, [], (err, rows, fields) => {
     if (err) {
       res.status(500);
