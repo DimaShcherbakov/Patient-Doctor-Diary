@@ -6,10 +6,8 @@ export function checkData(loginData) {
     console.log(loginData)
     axios.post('http://localhost:5000/login/', loginData)
       .then((res) => {
-        console.log("Login sucksess",res)
         localStorage.token = res.data.token;
         localStorage.userId = res.data.id;
-        console.log(res);
         dispatch(Creators.loginSuccess(res.data.token, res.data.id));
       })
       .catch((err) => {
