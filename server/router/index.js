@@ -60,6 +60,7 @@ router.post('/register', (req, res) => {
     pas: req.body.pas,
     photo: req.body.photo,
   };
+  console.log(userData)
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
       res.json({ error: 'Такой пользователь уже есть' });// status code 400

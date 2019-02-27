@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import InputMask from 'react-input-mask';
-import axios from 'axios';
+// import axios from 'axios';
+import { addDoctor } from '../actions/formReducer';
+import { connect } from 'react-redux';
 import Error from '../components/error.jsx';
 import '../styles/register.scss';
 
@@ -11,7 +13,7 @@ class RegistrationForm extends React.Component {
     super(props);
     this.formHandler = this.formHandler.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.checkPas = this.checkPas.bind(this);
+    // this.checkPas = this.checkPas.bind(this);
     this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.state = {
       firstName: '',
@@ -28,22 +30,8 @@ class RegistrationForm extends React.Component {
         pasError: 'Пароли не совпадают',
         emailError: 'Пользователь уже существует',
       },
-      truePas: true,
-      formErr: true,
-      allRight: false,
+      wrongPassword: false,
     };
-  }
-
-  checkPas() {
-    const { pas1 } = this.state;
-    const { pas2 } = this.state;
-    console.log(pas1);
-    console.log(pas2);
-    if (pas1 === pas2) {
-      this.setState({ truePas: true });
-    } else {
-      this.setState({ truePas: false });
-    }
   }
 
   handleUserInput(e) {
@@ -68,42 +56,47 @@ class RegistrationForm extends React.Component {
 
   formHandler(e) {
     e.preventDefault();
-    this.checkPas();
     const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, image, truePas,
+      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, pas2, image,
     } = this.state;
-    if (truePas) {
-      axios.post('http://localhost:5000/register', {
-        firstName,
-        secondName,
-        thirdName,
-        brthDay,
-        position,
-        telephone,
-        email,
-        pas: pas1,
-        photo: image,
-      }).then((res) => {
-        console.log(res);
-        if (res.data.error) {
-          this.setState({
-            email: '',
-            formErr: false,
-          });
-        } else {
-          this.setState({
-            allRight: true,
-          });
-        }
-      });
+    if (pas1 === pas2) {
+      addDoctor(this.state);
+    } else {
+      this.setState({
+        wrongPassword: true,
+      })
     }
+    // if (truePas) {
+      // axios.post('http://localhost:5000/register', {
+      //   firstName,
+      //   secondName,
+      //   thirdName,
+      //   brthDay,
+      //   position,
+      //   telephone,
+      //   email,
+      //   pas: pas1,
+      //   photo: image,
+      // }).then((res) => {
+      //   console.log(res);
+      //   if (res.data.error) {
+      //     this.setState({
+      //       email: '',
+      //       formErr: false,
+      //     });
+      //   } else {
+      //     this.setState({
+      //       allRight: true,
+      //     });
+      //   }
+      // });
+    // }
   }
 
   render() {
     const {
       firstName,
       formErrors,
-      formErr,
       secondName,
       thirdName,
       brthDay,
@@ -113,10 +106,12 @@ class RegistrationForm extends React.Component {
       pas1,
       image,
       pas2,
-      truePas,
-      allRight,
+      wrongPassword,
     } = this.state;
-    if (allRight) {
+    const { success, wrongEmail } = this.props.form;
+    console.log(wrongPassword)
+    console.log(this.state.wrongPassword)
+    if (success) {
       return <Redirect to="/" />;
     }
     return (
@@ -210,7 +205,7 @@ class RegistrationForm extends React.Component {
                 onChange={this.handleUserInput}
                 required
               />
-              <Error hide={formErr} content={formErrors.emailError} />
+              <Error hide={wrongEmail} content={formErrors.emailError} />
             </div>
           </div>
           <div className="pas-wrap">
@@ -237,7 +232,7 @@ class RegistrationForm extends React.Component {
               />
             </div>
           </div>
-          <Error hide={truePas} content={formErrors.pasError} />
+          <Error hide={wrongPassword} content={formErrors.pasError} />
           <Button
             type="submit"
             variant="contained"
@@ -251,5 +246,18 @@ class RegistrationForm extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => (
+  {
+    form: state.form
+  }
+);
 
-export default RegistrationForm;
+const mapDispatchToProps = (dispatch) => (
+  {
+    addDoctor: (data) => {
+      dispatch(addDoctor(data))
+    }
+  }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

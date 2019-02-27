@@ -9,7 +9,6 @@ import getListPatients from '../actions/patientsReducer';
 import { reset } from '../actions/formReducer';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
-// import { Link } from 'react-router-dom';
 import FormRegPatient from './FormRegPatient.jsx';
 
 class WrapperData extends React.Component {
@@ -35,8 +34,7 @@ class WrapperData extends React.Component {
     });
   }
 
-  hidePopup(e) {
-    e.preventDefault();
+  hidePopup() {
     this.setState({
       showPopup: false,
     });

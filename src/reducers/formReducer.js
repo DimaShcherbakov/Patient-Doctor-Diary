@@ -4,16 +4,34 @@ export const { Types, Creators } = createActions({
   addPatient: [],
   addDoctor: [],
   reset: [],
+  // wrongPassword: [],
+  wrongEmail: [],
 });
 
 const INITIAL_STATE = {
   success: false,
+  wrongPassword: false,
+  wrongEmail: false,
 };
 
 const addPatient = (state = INITIAL_STATE, action) => (
   {
     ...state,
     success: true,
+  }
+);
+
+// const wrongPassword = (state = INITIAL_STATE, action) => {
+//   console.log(state)
+//   return {
+//     ...state,
+//     wrongPassword: true,
+//   }
+// };
+const wrongEmail = (state = INITIAL_STATE, action) => (
+  {
+    ...state,
+    wrongEmail: true,
   }
 );
 
@@ -28,6 +46,8 @@ const addDoctor = (state = INITIAL_STATE, action) => (
   {
     ...state,
     success: true,
+    wrongPassword: false,
+    wrongEmail: false,
   }
 );
 
@@ -35,6 +55,8 @@ export const HANDLERS = {
   [Types.ADD_DOCTOR]: addDoctor,
   [Types.ADD_PATIENT]: addPatient,
   [Types.RESET]: reset,
+  // [Types.WRONG_PASSWORD]: wrongPassword,
+  [Types.WRONG_EMAIL]: wrongEmail,
 };
 
 const formReducer = createReducer(INITIAL_STATE, HANDLERS);

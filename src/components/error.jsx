@@ -4,7 +4,7 @@ import '../styles/error.scss';
 
 const Error = (props) => {
   const { hide, content } = props;
-  return <p className={`error ${hide ? 'hide' : ''}`}>{ content }</p>
+  return <p className={`error ${hide ? '' : 'hide'}`}>{ content }</p>
 };
 
 export default Error;

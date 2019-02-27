@@ -71,7 +71,6 @@ class FormRegPatient extends Component {
     const { addPatient } = this.props;
     const data = { ...this.state, id: parseInt(localStorage.userId, 10) };
     addPatient(data);
-    console.log(data);
     this.onClose();
   }
 
@@ -85,7 +84,7 @@ class FormRegPatient extends Component {
       confirmPassword,
     } = this.state;
     const { show } = this.props;
-    console.log(this.props);
+
     return (
       <div className={`registr-popup ${show ? '' : 'hide-popup'}`}>
         <form
@@ -161,7 +160,7 @@ class FormRegPatient extends Component {
             <input
               type="file"
               name="file"
-              data-buttonText="Фото"
+              data-buttontext="Фото"
               accept=".jpg, .jpeg, .png"
               onChange={this.handleUserInput}
               value={file}
@@ -223,17 +222,3 @@ export default connect(mapStateToProps, mapDispatchToProps)(FormRegPatient);
 FormRegPatient.propTypes = {
   hide: PropTypes.func,
 };
-
-
-// {
-// 	"id": "13",
-// 	"fN": "Дима",
-// 	"lN": "Дима",
-// 	"tN": "Дима",
-// 	"bD": "Дима",
-// 	"tel": "Дима",
-// 	"wP": "Дима",
-// 	"rP": "Дима",
-// 	"email": "Дима",
-// 	"pas": "Дима"
-// }
