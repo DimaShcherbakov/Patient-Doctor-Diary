@@ -3,7 +3,7 @@ import InputMask from 'react-input-mask';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPatient } from '../actions/formReducer';
+import { addPatient } from '../actions/formActions';
 import '../styles/registerPeople.scss';
 import '../styles/refPat.scss';
 
@@ -58,7 +58,7 @@ class FormRegPatient extends Component {
     let cursorPosition = selection ? selection.start : null;
     if (value.endsWith('-') && userInput !== '-' && !brthDay.endsWith('-')) {
       if (cursorPosition === value.length) {
-        cursorPosition--;
+        cursorPosition -= 1;
         selection = { start: cursorPosition, end: cursorPosition };
       }
       value = value.slice(0, -1);
@@ -206,9 +206,7 @@ class FormRegPatient extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  { form: state.form }
-);
+const mapStateToProps = state => ({ form: state.form });
 const mapDispatchToProps = dispatch => (
   {
     addPatient: (data) => {
@@ -220,5 +218,7 @@ const mapDispatchToProps = dispatch => (
 export default connect(mapStateToProps, mapDispatchToProps)(FormRegPatient);
 
 FormRegPatient.propTypes = {
-  hide: PropTypes.func,
+  hide: PropTypes.func.isRequired,
+  addPatient: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
 };

@@ -2,12 +2,11 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { logout } from '../actions/loginReducer';
+import { logout } from '../actions/loginActions';
 import '../styles/header.scss';
 
 const Header = (props) => {
   const { data } = props;
-  const exit = 'Выйти';
   if (data.isAuthorised === false) {
     return <Redirect to="/" />;
   }
@@ -19,7 +18,7 @@ const Header = (props) => {
           className="user-exit"
           onClick={() => (props.logout())}
         >
-          {exit}
+          Выйти
         </button>
       </div>
     </header>
@@ -28,20 +27,17 @@ const Header = (props) => {
 
 Header.propTypes = {
   data: PropTypes.object,
-  logout: PropTypes.func,
+  logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    data: state.login,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapStateToProps = state => ({ data: state.login });
+
+const mapDispatchToProps = dispatch => (
+  {
     logout: () => {
       dispatch(logout());
     },
-  };
-};
+  }
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

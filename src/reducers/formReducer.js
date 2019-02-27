@@ -4,7 +4,6 @@ export const { Types, Creators } = createActions({
   addPatient: [],
   addDoctor: [],
   reset: [],
-  // wrongPassword: [],
   wrongEmail: [],
 });
 
@@ -21,13 +20,6 @@ const addPatient = (state = INITIAL_STATE, action) => (
   }
 );
 
-// const wrongPassword = (state = INITIAL_STATE, action) => {
-//   console.log(state)
-//   return {
-//     ...state,
-//     wrongPassword: true,
-//   }
-// };
 const wrongEmail = (state = INITIAL_STATE, action) => (
   {
     ...state,

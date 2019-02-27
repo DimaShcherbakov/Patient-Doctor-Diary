@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { openMenu, getPersonalInfo } from '../actions/menuReducer';
+import { openMenu, getPersonalInfo } from '../actions/menuActions';
 import Header from './Header.jsx';
 import Menu from '../components/Menu.jsx';
 import MainPageRouter from '../routes/main_page.jsx';
@@ -37,21 +37,17 @@ Main.propTypes = {
   openMenu: PropTypes.func,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    menu: state.menu,
-  };
-};
+const mapStateToProps = state => ({ menu: state.menu });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = dispatch => (
+  {
     openMenu: (data) => {
       dispatch(openMenu(data));
     },
     getData: (data) => {
       dispatch(getPersonalInfo(data));
     },
-  };
-};
+  }
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

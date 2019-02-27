@@ -2,13 +2,13 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import validateEmail from '../utils/validateEmail';
 import Error from '../components/error.jsx';
-import { checkData } from '../actions/loginReducer';
+import { checkData } from '../actions/loginActions';
 import '../styles/form.scss';
 
 class Form extends React.Component {
-
   constructor(props) {
     super(props);
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -90,7 +90,7 @@ class Form extends React.Component {
           variant="contained"
           color="primary"
           className="btn"
-          onClick={ this.sendRequest }
+          onClick={this.sendRequest}
         >
           Enter
         </Button>
@@ -104,17 +104,19 @@ class Form extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    enter: state.login,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapStateToProps = state => ({ enter: state.login });
+
+const mapDispatchToProps = dispatch => (
+  {
     checkData: (data) => {
       dispatch(checkData(data));
     },
-  };
-};
+  }
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
+
+Form.propTypes = {
+  enter: PropTypes.object.isRequired,
+  checkData: PropTypes.func.isRequired,
+};

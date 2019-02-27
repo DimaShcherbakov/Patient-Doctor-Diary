@@ -16,7 +16,7 @@ const AppHeader = props => (
 );
 
 AppHeader.propTypes = {
-  menuClick: PropTypes.func
+  menuClick: PropTypes.func.isRequired,
 };
 
 export default AppHeader;

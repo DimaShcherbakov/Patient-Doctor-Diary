@@ -57,7 +57,7 @@ router.post('/register', (req, res) => {
     pos: req.body.position,
     tel: req.body.telephone,
     em: req.body.email,
-    pas: req.body.pas,
+    pas: req.body.pas1,
     photo: req.body.photo,
   };
   console.log(userData)

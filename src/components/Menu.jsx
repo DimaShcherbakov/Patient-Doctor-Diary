@@ -11,12 +11,12 @@ import '../styles/menu.scss';
 import Ava from '../assets/ava.jpg';
 
 const Menu = (props) => {
-  const { info } = props;
+  const { info, name, handler } = props;
   return (
-    <div className={props.name}>
+    <div className={name}>
       <div
-        className="menu-btn"  
-        onClick={props.handler}
+        className="menu-btn"
+        onClick={handler}
       >
         <IconButton>
           <MenuIcon />
@@ -78,6 +78,6 @@ export default Menu;
 
 Menu.propTypes = {
   info: PropTypes.object,
-  name: PropTypes.string,
-  handler: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  handler: PropTypes.func.isRequired,
 };

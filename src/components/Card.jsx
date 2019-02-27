@@ -23,6 +23,5 @@ const Card = (props) => {
 export default Card;
 
 Card.propTypes = {
-  img: PropTypes.string,
-  info: PropTypes.object,
+  info: PropTypes.object.isRequired,
 };

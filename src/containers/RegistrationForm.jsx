@@ -2,8 +2,9 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import InputMask from 'react-input-mask';
+import PropTypes from 'prop-types';
 // import axios from 'axios';
-import { addDoctor } from '../actions/formReducer';
+import { addDoctor } from '../actions/formActions';
 import { connect } from 'react-redux';
 import Error from '../components/error.jsx';
 import '../styles/register.scss';
@@ -46,7 +47,7 @@ class RegistrationForm extends React.Component {
     let cursorPosition = selection ? selection.start : null;
     if (value.endsWith('-') && userInput !== '-' && !brthDay.endsWith('-')) {
       if (cursorPosition === value.length) {
-        cursorPosition--;
+        cursorPosition -= 1;
         selection = { start: cursorPosition, end: cursorPosition };
       }
       value = value.slice(0, -1);
@@ -56,9 +57,8 @@ class RegistrationForm extends React.Component {
 
   formHandler(e) {
     e.preventDefault();
-    const {
-      firstName, secondName, thirdName, brthDay, position, telephone, email, pas1, pas2, image,
-    } = this.state;
+    const { addDoctor } = this.props;
+    const { pas1, pas2 } = this.state;
     if (pas1 === pas2) {
       addDoctor(this.state);
     } else {
@@ -66,31 +66,6 @@ class RegistrationForm extends React.Component {
         wrongPassword: true,
       })
     }
-    // if (truePas) {
-      // axios.post('http://localhost:5000/register', {
-      //   firstName,
-      //   secondName,
-      //   thirdName,
-      //   brthDay,
-      //   position,
-      //   telephone,
-      //   email,
-      //   pas: pas1,
-      //   photo: image,
-      // }).then((res) => {
-      //   console.log(res);
-      //   if (res.data.error) {
-      //     this.setState({
-      //       email: '',
-      //       formErr: false,
-      //     });
-      //   } else {
-      //     this.setState({
-      //       allRight: true,
-      //     });
-      //   }
-      // });
-    // }
   }
 
   render() {
@@ -109,8 +84,7 @@ class RegistrationForm extends React.Component {
       wrongPassword,
     } = this.state;
     const { success, wrongEmail } = this.props.form;
-    console.log(wrongPassword)
-    console.log(this.state.wrongPassword)
+    console.log(success)
     if (success) {
       return <Redirect to="/" />;
     }
@@ -246,11 +220,7 @@ class RegistrationForm extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => (
-  {
-    form: state.form
-  }
-);
+const mapStateToProps = (state) => ({ form: state.form });
 
 const mapDispatchToProps = (dispatch) => (
   {
