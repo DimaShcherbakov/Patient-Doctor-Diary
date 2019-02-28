@@ -7,6 +7,11 @@
     width: 70%;
     display: flex;
     flex-direction: column;
+    .wrapAddNote {
+      display: flex;
+      justify-content: space-between;
+      margin-right: 5%;
+    }
   }
   .profileInfo {
     width: 30%;
@@ -28,7 +33,7 @@
     color: black;
     font-family: Arial Black;
     font-size: 15px;
-        width: 100%;
+    width: 100%;
     td {
       padding-left: 15px;
     }

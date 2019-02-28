@@ -1,6 +1,5 @@
 .wrapForm {
-  margin-top: 40px;
-  width: 95%;
+  width: 57%;
   .formPatient {
     border-top: 10px;
     border-bottom: 1px;
@@ -10,8 +9,24 @@
     max-width: 100%;
     border-radius: 0px;
     background-color: whitesmoke;
-    .dateField {
-      border: 1px solid #9fc7ff;
+    height: 281px;
+    .wrapDate {
+      display: flex;
+      justify-content: space-between;
+      .dateField {
+        width: 75px;
+        margin-right: 4%;
+        input {
+          text-align: right;
+          border: 1px solid black;
+          width: 100%;
+        }
+      }
+      .timeField {
+        input {
+          height: 18px;
+        }
+      }
     }
     input {
       border-radius: 0px;
@@ -27,10 +42,10 @@
     }
 
     .noteField {
-      height: 100px;
+      min-height: 4 rows;
     }
     button {
-      margin-top:10px;
+      margin-top: 10px;
       font-size: 18px;
       background-color: #6777bf;
       color: #ffffff;

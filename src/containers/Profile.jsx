@@ -5,10 +5,39 @@ import '../styles/formProfile.scss';
 import Ava from '../assets/ava.jpg';
 import getDate from '../utils/getDate';
 import { Button } from '@material-ui/core';
+import Calendar from 'react-calendar';
+import { connect } from 'react-redux';
+import { addRow } from '../actions/profileAction';
+import ProfileTable from '../components/profileTable.jsx';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
+    this.onChange = this.onChange.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.addNote = this.addNote.bind(this);
+    this.state = {
+      chosedDate: '',
+      time: '',
+      fullName: '',
+      note: '',
+    };
+  }
+
+  handleUserInput(e) {
+    const { name } = e.target;
+    const { value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  onChange(date) {
+    const selectedDate = getDate(date);
+    this.setState({ chosedDate: selectedDate });
+  }
+  addNote(e) {
+    e.preventDefault();
+    const { onAddNewRow } = this.props;
+    onAddNewRow(this.state);
   }
 
   render() {
@@ -21,49 +50,49 @@ class Profile extends React.Component {
       'rfergrehgfokl@dfgdfg.dfg',
       '665154654156',
     ];
-
+    const { chosedDate, time, fullName, note } = this.state;
+    console.log(this.props.persPage);
     return (
       <div className="container">
         <div className="userInfo">
-          <div className="wrapperTable" />
-          <table className="tablePatient">
-            <tr className="colName">
-              <th class="date">Дата</th>
-              <th className="time">Время</th>
-              <th class="fName">ФИО</th>
-              <th className="note">Заметка</th>
-            </tr>
-            <tr>
-              <td class="date">Дата</td>
-              <td className="time">Время</td>
-              <td class="fName">ФИО</td>
-              <td className="note">Заметка</td>
-            </tr>
-            <tr>
-              <td class="date">Дата</td>
-              <td className="time">Время</td>
-              <td class="fName">ФИО</td>
-              <td className="note">Заметка</td>
-            </tr>
-            <tr>
-              <td class="date">Дата</td>
-              <td className="time">Время</td>
-              <td class="fName">ФИО</td>
-              <td className="note">Заметка</td>
-            </tr>
-          </table>
-          <div className="wrapForm">
-            <form className="formPatient">
-              <p className="formName">Добавить...</p>
-              <input className="dateField" value={getDate()} readOnly />
-              <input type="time" className="timeField" />
-              <input type="text" placeholder="ФИО" />
-              <textarea className="noteField" placeholder="Заметка" />
-              <Button type="submit" color="primary" className="btn">
-                Добавить
-              </Button>
-            </form>
+          <div className="wrapAddNote">
+            <div className="calendar">
+              <Calendar onChange={this.onChange} value={this.state.date} />
+            </div>
+            <div className="wrapForm">
+              <form className="formPatient" onSubmit={this.addNote}>
+                <p className="formName">Добавить...</p>
+                <div className="wrapDate">
+                  <div className="timeField">
+                    <input name="time" type="time" onChange={this.handleUserInput} value={time} />
+                  </div>
+                  <div className="dateField">
+                    <input name="chosedData" value={chosedDate} readOnly />
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="ФИО"
+                  autocomplete="off"
+                  onChange={this.handleUserInput}
+                  value={fullName}
+                />
+                <textarea
+                  name="note"
+                  className="noteField"
+                  placeholder="Заметка"
+                  rows="4"
+                  onChange={this.handleUserInput}
+                  value={note}
+                />
+                <Button type="submit" color="primary" className="btn">
+                  Добавить
+                </Button>
+              </form>
+            </div>
           </div>
+          <ProfileTable />
         </div>
         <div className="profileInfo">
           <div className="photo">
@@ -84,4 +113,15 @@ class Profile extends React.Component {
     );
   }
 }
-export default Profile;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddNewRow: formData => {
+      dispatch(addRow(formData));
+    },
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Profile);

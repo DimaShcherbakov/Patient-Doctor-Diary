@@ -1,5 +1,5 @@
-const getDate = () => {
-  let today = new Date();
+const getDate = (day) => {
+  let today = day;
   let dd = today.getDate();
   let mm = today.getMonth() + 1; //January is 0!
   let yyyy = today.getFullYear();
