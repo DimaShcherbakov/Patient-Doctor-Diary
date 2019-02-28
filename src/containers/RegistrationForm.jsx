@@ -3,7 +3,6 @@ import { Button } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
 import { addDoctor } from '../actions/formActions';
 import { connect } from 'react-redux';
 import Error from '../components/error.jsx';
@@ -14,7 +13,6 @@ class RegistrationForm extends React.Component {
     super(props);
     this.formHandler = this.formHandler.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
-    // this.checkPas = this.checkPas.bind(this);
     this.beforeMaskedValueChange = this.beforeMaskedValueChange.bind(this);
     this.state = {
       firstName: '',
