@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
+import { Link } from 'react-router-dom'
 import InputBase from '@material-ui/core/InputBase';
 import getListPatients from '../actions/patientsActions';
 import { reset } from '../actions/formActions';
@@ -47,15 +48,16 @@ class WrapperData extends React.Component {
     const id = localStorage.userId;
     const { form, reset } = this.props;
     const listPatients = patients.dataArr.map(element => (
-      <Card
-        key={element.id_pacient}
-        info={{
-          fN: element.first_name,
-          lN: element.last_name,
-          tN: element.third_name,
-          bD: element.brth_day,
-        }}
-      />
+      <Link key={element.id_pacient} to={`/main/patients/${element.id_pacient}`}>
+        <Card
+          info={{
+            fN: element.first_name,
+            lN: element.last_name,
+            tN: element.third_name,
+            bD: element.brth_day,
+          }}
+        />
+      </Link>
     ));
     console.log(form.success);
     if (form.success) {

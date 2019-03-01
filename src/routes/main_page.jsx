@@ -6,9 +6,9 @@ import PersonPage from '../containers/PersonPage.jsx';
 const MainPageRouter = () => (
   <Switch>
     <Route exact path="/main" />
-    <Route path="/main/patients" component={WrapperData} />
     <Route path="/main/notifications" />
     <Route path="/main/messenges" />
+    <Route exact path="/main/patients" component={WrapperData} />
     <Route path="/main/patients/:id" component={PersonPage} />
   </Switch>
 );

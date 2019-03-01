@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const upload = require('express-fileupload');
+const io = require('./middleware/socket');
 // const multer = require('multer');
 // const verifyToken = require('./middleware/verifyToken');
 const router = require('./router/index')
@@ -30,5 +31,6 @@ app.set('port', process.env.port || port);
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
-app.use('/', router)
+app.use('/', router);
+app.use( () => io );
   
