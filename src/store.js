@@ -1,11 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import socketIO from 'socket.io-client';
+import socketIoMiddleware from 'redux-socket.io-middleware';
 import loginReducer from './reducers/loginReducer';
 import menuReducer from './reducers/menuReducer';
 import patientsReducer from './reducers/patientsReducer';
 import formReducer from './reducers/formReducer';
 
-const middleware = [thunk];
+const io = socketIO.connect('http://localhost:5000');
+const middleware = [thunk, socketIoMiddleware(io)];
 
 export default createStore(
   combineReducers({

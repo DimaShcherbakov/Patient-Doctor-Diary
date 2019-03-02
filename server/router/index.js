@@ -153,4 +153,9 @@ router.post('/registration/patient', (req, res) => {
   });
 });
 
+router.post('/messages', (req, res) => {
+  const message = req.body;
+  
+});
+
 module.exports = router;

@@ -94,6 +94,14 @@ class Form extends React.Component {
         >
           Enter
         </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className="btn"
+          // onClick={}
+        >
+          Test
+        </Button>
         <p className="links">
           <Link to="/password">Забыли пароль?</Link>
           <span> | </span>
