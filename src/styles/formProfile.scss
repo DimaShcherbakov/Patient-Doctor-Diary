@@ -1,0 +1,60 @@
+.wrapForm {
+  width: 57%;
+  .formPatient {
+    border-top: 10px;
+    border-bottom: 1px;
+    border-right: 1px;
+    border-left: 1px;
+    border-color: #9fc7ff;
+    max-width: 100%;
+    border-radius: 0px;
+    background-color: whitesmoke;
+    height: 281px;
+    .wrapDate {
+      display: flex;
+      justify-content: space-between;
+      .dateField {
+        width: 75px;
+        margin-right: 4%;
+        input {
+          text-align: right;
+          border: 1px solid black;
+          width: 100%;
+        }
+      }
+      .timeField {
+        input {
+          height: 18px;
+        }
+      }
+    }
+    input {
+      border-radius: 0px;
+      &:invalid {
+        border: 1px solid black;
+      }
+      &:valid {
+        border: 1px solid black;
+      }
+      &:focus {
+        border: 1px solid #9fc7ff;
+      }
+    }
+
+    .noteField {
+      min-height: 4 rows;
+    }
+    button {
+      margin-top: 10px;
+      font-size: 18px;
+      background-color: #6777bf;
+      color: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #6777bf;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: hsl(229, 65%, 52%);
+    }
+  }
+}
