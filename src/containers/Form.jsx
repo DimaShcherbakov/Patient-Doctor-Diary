@@ -28,7 +28,7 @@ class Form extends React.Component {
     const { email } = this.state;
     const { password } = this.state;
     const { name } = e.target;
-    const { value } = e.target;// e.target.value
+    const { value } = e.target;
     this.setState({ [name]: value });
     if (email !== '' && password === '') {
       this.setState({ emailValid: false });

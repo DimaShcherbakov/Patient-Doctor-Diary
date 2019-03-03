@@ -10,6 +10,10 @@ const INITIAL_STATE = {
   fN: '',
   lN: '',
   tN: '',
+  em: '',
+  pos: '',
+  tel: '',
+  bday: '',
 };
 
 const openMenu = (state = INITIAL_STATE, action) => (

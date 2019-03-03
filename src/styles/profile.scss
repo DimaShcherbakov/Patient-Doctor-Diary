@@ -35,6 +35,7 @@
     font-size: 15px;
     width: 100%;
     td {
+      padding: 15px 0px;
       padding-left: 15px;
     }
     tr:nth-child(odd) {
@@ -47,7 +48,6 @@
     }
     .personData {
       background-color: #ecefff;
-      line-height: 4;
       margin-bottom: 10px;
       border-collapse: collapse;
       width: 100%;

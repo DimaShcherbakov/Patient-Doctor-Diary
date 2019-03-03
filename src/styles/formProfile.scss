@@ -1,15 +1,11 @@
 .wrapForm {
-  width: 57%;
   .formPatient {
-    border-top: 10px;
-    border-bottom: 1px;
-    border-right: 1px;
-    border-left: 1px;
-    border-color: #9fc7ff;
-    max-width: 100%;
-    border-radius: 0px;
+    padding: 0 10px;
     background-color: whitesmoke;
-    height: 281px;
+    p{
+      margin: 0px;
+      padding: 10px;
+    }
     .wrapDate {
       display: flex;
       justify-content: space-between;
@@ -28,8 +24,17 @@
         }
       }
     }
+    .fullname{
+      width: 100%;
+    }
+    .noteField{
+      width: 100%;
+    }
     input {
       border-radius: 0px;
+      padding: 5px 0;
+      border-radius: 3px;
+      margin-bottom: 10px;
       &:invalid {
         border: 1px solid black;
       }
@@ -40,17 +45,14 @@
         border: 1px solid #9fc7ff;
       }
     }
-
-    .noteField {
-      min-height: 4 rows;
-    }
-    button {
+    .btn {
       margin-top: 10px;
       font-size: 18px;
       background-color: #6777bf;
       color: #ffffff;
       border-radius: 10px;
       border: 1px solid #6777bf;
+      margin-bottom: 10px;
       cursor: pointer;
     }
     button:hover {

@@ -2,12 +2,12 @@ import React from 'react';
 import '../styles/profile.scss';
 import '../styles/tableProfile.scss';
 import '../styles/formProfile.scss';
-import Ava from '../assets/ava.jpg';
-import getDate from '../utils/getDate';
 import { Button } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
-import { addRow } from '../actions/profileAction';
+import Ava from '../assets/ava.jpg';
+import getDate from '../utils/getDate';
+import addMessage from '../actions/profileAction';
 import ProfileTable from '../components/profileTable.jsx';
 
 class Profile extends React.Component {
@@ -24,24 +24,28 @@ class Profile extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log('OK')
+  }
+  onChange(date) {
+    const selectedDate = getDate(date);
+    this.setState({ chosedDate: selectedDate });
+  }
+
   handleUserInput(e) {
     const { name } = e.target;
     const { value } = e.target;
     this.setState({ [name]: value });
   }
 
-  onChange(date) {
-    const selectedDate = getDate(date);
-    this.setState({ chosedDate: selectedDate });
-  }
   addNote(e) {
     e.preventDefault();
-    const { onAddNewRow } = this.props;
-    onAddNewRow(this.state);
+    const { addMessage } = this.props;
+    addMessage(this.state);
   }
 
   render() {
-    const arr = ['имя', 'отчество', 'фамилия', 'год рождения', 'e-mail', 'телефон'];
+    const arr = ['Имя', 'Отчество', 'Фамилия', 'Год рождения', 'e-mail', 'Телефон', 'Должность'];
     const data = [
       'владимир',
       'владимирович',
@@ -50,8 +54,11 @@ class Profile extends React.Component {
       'rfergrehgfokl@dfgdfg.dfg',
       '665154654156',
     ];
-    const { chosedDate, time, fullName, note } = this.state;
-    console.log(this.props.persPage);
+    const {
+      chosedDate, time, fullName, note,
+    } = this.state;
+
+    console.log(this.props);
     return (
       <div className="container">
         <div className="userInfo">
@@ -74,7 +81,7 @@ class Profile extends React.Component {
                   type="text"
                   name="fullName"
                   placeholder="ФИО"
-                  autocomplete="off"
+                  className="fullname"
                   onChange={this.handleUserInput}
                   value={fullName}
                 />
@@ -82,11 +89,16 @@ class Profile extends React.Component {
                   name="note"
                   className="noteField"
                   placeholder="Заметка"
-                  rows="4"
+                  rows="6"
+                  cols="30"
                   onChange={this.handleUserInput}
                   value={note}
                 />
-                <Button type="submit" color="primary" className="btn">
+                <Button
+                  type="submit"
+                  color="primary"
+                  className="btn"
+                >
                   Добавить
                 </Button>
               </form>
@@ -100,12 +112,14 @@ class Profile extends React.Component {
           </div>
           <div className="profileData">
             <table className="personData">
-              {arr.map((element, index) => (
-                <tr key={index}>
-                  <td>{element}</td>
-                  <td>{data[index]}</td>
-                </tr>
-              ))}
+              <tbody>
+                {arr.map((element, index) => (
+                  <tr key={index}>
+                    <td>{element}</td>
+                    <td>{data[index]}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
@@ -114,14 +128,17 @@ class Profile extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddNewRow: formData => {
-      dispatch(addRow(formData));
+const mapStateToProps = state => ({ profile: state.profile });
+
+const mapDispatchToProps = dispatch => (
+  {
+    addMessage: (formData) => {
+      dispatch(addMessage(formData));
     },
-  };
-};
+  }
+);
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Profile);
