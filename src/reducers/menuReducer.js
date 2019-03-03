@@ -2,7 +2,7 @@ import { createActions, createReducer } from 'reduxsauce'
 
 export const { Types, Creators } = createActions({
   menuAction: ['openMenu'],
-  getMenuData: ['fN', 'lN', 'tN'],
+  getMenuData: ['data'],
 });
 
 const INITIAL_STATE = {
@@ -23,14 +23,22 @@ const openMenu = (state = INITIAL_STATE, action) => (
   }
 );
 
-const getMenuData = (state = INITIAL_STATE, action) => (
-  {
+const getMenuData = (state = INITIAL_STATE, action) => {
+  const {
+    bDay, email, phone, firstName, lastName, pos, thirdName, photo,
+  } = action.data;
+  return {
     ...state,
-    fN: action.fN,
-    lN: action.lN,
-    tN: action.tN,
-  }
-);
+    photo,
+    fN: firstName,
+    lN: lastName,
+    tN: thirdName,
+    em: email,
+    pos,
+    tel: phone,
+    bday: bDay,
+  };
+};
 
 export const HANDLERS = {
   [Types.MENU_ACTION]: openMenu,

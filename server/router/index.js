@@ -91,7 +91,7 @@ router.get('/user/:id', (req, res) => {
         lastName: rows[0].last_name,
         thirdName: rows[0].third_name,
         photo: rows[0].photo,
-        phone: rows[0].telephone,
+        phone: rows[0].telefone,
         bDay: rows[0].birthday_date,
         pos: rows[0].position,
         email: rows[0].email,

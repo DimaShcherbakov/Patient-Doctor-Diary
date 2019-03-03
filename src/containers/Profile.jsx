@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
 import Ava from '../assets/ava.jpg';
 import getDate from '../utils/getDate';
+import { getPersonalInfo } from '../actions/menuActions';
 import addMessage from '../actions/profileAction';
 import ProfileTable from '../components/profileTable.jsx';
 
@@ -24,9 +25,6 @@ class Profile extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log('OK')
-  }
   onChange(date) {
     const selectedDate = getDate(date);
     this.setState({ chosedDate: selectedDate });
@@ -45,20 +43,15 @@ class Profile extends React.Component {
   }
 
   render() {
-    const arr = ['Имя', 'Отчество', 'Фамилия', 'Год рождения', 'e-mail', 'Телефон', 'Должность'];
-    const data = [
-      'владимир',
-      'владимирович',
-      'путин',
-      '12.12.1212',
-      'rfergrehgfokl@dfgdfg.dfg',
-      '665154654156',
-    ];
+    const arr = ['Фамилия', 'Имя', 'Отчество', 'Год рождения', 'e-mail', 'Телефон', 'Должность'];
     const {
       chosedDate, time, fullName, note,
     } = this.state;
+    const {
+      fN, lN, tN, em, bday, tel, pos,
+    } = this.props.menu;
+    const data = [fN, lN, tN, bday, em, tel, pos];
 
-    console.log(this.props);
     return (
       <div className="container">
         <div className="userInfo">
@@ -128,12 +121,20 @@ class Profile extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ profile: state.profile });
+const mapStateToProps = state => (
+  {
+    profile: state.profile,
+    menu: state.menu,
+  }
+);
 
 const mapDispatchToProps = dispatch => (
   {
     addMessage: (formData) => {
       dispatch(addMessage(formData));
+    },
+    getData: (data) => {
+      dispatch(getPersonalInfo(data));
     },
   }
 );
