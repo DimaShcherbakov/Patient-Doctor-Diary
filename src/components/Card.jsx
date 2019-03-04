@@ -11,6 +11,8 @@ const Card = (props) => {
         <img src={Image} alt="person" />
       </div>
       <p>
+        {/* use readable names please */}
+        {/* you are using fields of info which are missing in propTypes */}
         <span>{info.lN}</span>
         <span>{info.fN}</span>
         <span>{info.tN}</span>

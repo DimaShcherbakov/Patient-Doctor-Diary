@@ -77,6 +77,7 @@ const Menu = (props) => {
 export default Menu;
 
 Menu.propTypes = {
+  // expand field type, you must describe all fields which you are using in your code
   info: PropTypes.object,
   name: PropTypes.string.isRequired,
   handler: PropTypes.func.isRequired,

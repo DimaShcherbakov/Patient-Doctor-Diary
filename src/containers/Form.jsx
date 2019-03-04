@@ -16,6 +16,7 @@ class Form extends React.Component {
     this.state = {
       email: '',
       password: '',
+      // Why you keep error constants in state?
       formErrors: {
         email: 'Неверная почта',
         unRegistered: 'Проверьте логин и пароль',
@@ -52,6 +53,7 @@ class Form extends React.Component {
   }
 
   render() {
+    // ^_^ const { emailValid, formErrors, email, password } = this.state;)))
     const { emailValid } = this.state;
     const { formErrors } = this.state;
     const { email } = this.state;
