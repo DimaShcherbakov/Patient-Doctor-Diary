@@ -16,6 +16,7 @@ class Form extends React.Component {
     this.state = {
       email: '',
       password: '',
+      option: '',
       formErrors: {
         email: 'Неверная почта',
         unRegistered: 'Проверьте логин и пароль',
@@ -52,10 +53,8 @@ class Form extends React.Component {
   }
 
   render() {
-    const { emailValid } = this.state;
-    const { formErrors } = this.state;
-    const { email } = this.state;
-    const { password } = this.state;
+    const { emailValid, formErrors, email, password  } = this.state;
+
     const { isAuthorised } = this.props.enter;
     if (isAuthorised) {
       return (
@@ -86,6 +85,16 @@ class Form extends React.Component {
           required
           onChange={this.handleUserInput}
         />
+        <div className="select">
+          <select 
+            name="option"
+            id=""
+            onChange={this.handleUserInput}
+          >
+            <option value="Доктор">Доктор</option>
+            <option value="Пациент">Пациент</option>
+          </select>
+        </div>
         <Button
           variant="contained"
           color="primary"
@@ -93,14 +102,6 @@ class Form extends React.Component {
           onClick={this.sendRequest}
         >
           Enter
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          className="btn"
-          // onClick={}
-        >
-          Test
         </Button>
         <p className="links">
           <Link to="/password">Забыли пароль?</Link>
