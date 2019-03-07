@@ -52,10 +52,13 @@ class Form extends React.Component {
   }
 
   render() {
-    const { emailValid } = this.state;
-    const { formErrors } = this.state;
-    const { email } = this.state;
-    const { password } = this.state;
+    const {
+      emailValid, formErrors, email, password,
+    } = this.state;
+    // const { emailValid } = this.state;
+    // const { formErrors } = this.state;
+    // const { email } = this.state;
+    // const { password } = this.state;
     const { isAuthorised } = this.props.enter;
     if (isAuthorised) {
       return (
