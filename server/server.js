@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const upload = require('express-fileupload');
 const socket = require('socket.io');
+// const cors = require('cors')
 // const verifyToken = require('./middleware/verifyToken');
 const router = require('./router/index');
 
 const app = express();
 const port = 5000;
 
+// app.use(cors)
 app.use(upload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
