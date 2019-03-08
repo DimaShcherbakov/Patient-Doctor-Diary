@@ -10,7 +10,10 @@ import '../styles/main.scss';
 class Main extends React.Component {
 
   componentDidMount() {
-    this.props.getData(parseInt(localStorage.userId, 10));
+    const id = parseInt(localStorage.userId, 10);
+    const { status } = localStorage;
+    const { getData } = this.props;
+    getData(id, status);
   }
 
   render() {
@@ -35,6 +38,7 @@ class Main extends React.Component {
 Main.propTypes = {
   menu: PropTypes.object,
   openMenu: PropTypes.func,
+  getData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({ menu: state.menu });
@@ -44,8 +48,8 @@ const mapDispatchToProps = dispatch => (
     openMenu: (data) => {
       dispatch(openMenu(data));
     },
-    getData: (data) => {
-      dispatch(getPersonalInfo(data));
+    getData: (id, status) => {
+      dispatch(getPersonalInfo(id, status));
     },
   }
 );

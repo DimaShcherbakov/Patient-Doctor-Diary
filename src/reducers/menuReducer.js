@@ -1,8 +1,9 @@
-import { createActions, createReducer } from 'reduxsauce'
+import { createActions, createReducer } from 'reduxsauce';
 
 export const { Types, Creators } = createActions({
   menuAction: ['openMenu'],
   getMenuData: ['data'],
+  getPatientData: ['data'],
 });
 
 const INITIAL_STATE = {
@@ -14,6 +15,8 @@ const INITIAL_STATE = {
   pos: '',
   tel: '',
   bday: '',
+  workPlace: '',
+  regPlace: '',
 };
 
 const openMenu = (state = INITIAL_STATE, action) => (
@@ -40,9 +43,27 @@ const getMenuData = (state = INITIAL_STATE, action) => {
   };
 };
 
+const getPatientData = (state = INITIAL_STATE, action) => {
+  const {
+    bDay, email, phone, firstName, lastName, workPlace, regPlace, thirdName, photo,
+  } = action.data;
+  return {
+    ...state,
+    photo,
+    fN: firstName,
+    lN: lastName,
+    tN: thirdName,
+    em: email,
+    workPlace,
+    regPlace,
+    tel: phone,
+    bday: bDay,
+  };
+};
 export const HANDLERS = {
   [Types.MENU_ACTION]: openMenu,
   [Types.GET_MENU_DATA]: getMenuData,
+  [Types.GET_PATIENT_DATA]: getPatientData,
 };
 
 const menuReducer = createReducer(INITIAL_STATE, HANDLERS);

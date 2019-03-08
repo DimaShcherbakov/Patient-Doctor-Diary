@@ -23,29 +23,55 @@ router.post('/login', (req, res) => {
   const user = {
     email: req.body.email,
     pas: req.body.password,
+    status: req.body.status,
   };
-  console.log(user)
-  const query = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
-  connection.query(query, [user.email], (err, rows, fields) => {
-    if (rows[0]) {
-      if (user.pas === rows[0].password) {
-        jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
-          if (token) {
-            res.send({
-              token,
-              id: rows[0].id_registr_info,
-            });
-          } else {
-            res.sendStatus(500);
-          }
-        });
+  const { status } = user;
+  const queryDoctor = 'SELECT email, password, id_registr_info FROM registration_info WHERE email = ? ';
+  const queryPatient = 'SELECT id_pacient, id_registr_info, email, pas FROM pacients_data WHERE email = ? ';
+  if (status === 'doctor') {
+    connection.query(queryDoctor, [user.email], (err, rows, fields) => {
+      if (rows[0]) {
+        if (user.pas === rows[0].password) {
+          jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
+            if (token) {
+              res.send({
+                token,
+                id: rows[0].id_registr_info,
+              });
+            } else {
+              res.sendStatus(500);
+            }
+          });
+        } else {
+          res.status(418).json({ message: 'Неверный пароль' });
+        }
       } else {
-        res.status(418).json({ message: 'Неверный пароль' });
+        res.status(406).json({ message: 'Неверный логин' });
       }
-    } else {
-      res.status(406).json({ message: 'Неверный логин' });
-    }
-  });
+    });
+  } else {
+    connection.query(queryPatient, [user.email], (err, rows, fields) => {
+      if (rows[0]) {
+        if (user.pas === rows[0].pas) {
+          jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
+            if (token) {
+              res.send({
+                token,
+                id_pat: rows[0].id_registr_info,
+                id: rows[0].id_pacient,
+              });
+            } else {
+              res.sendStatus(500);
+            }
+          });
+        } else {
+          res.status(418).json({ message: 'Неверный пароль' });
+        }
+      } else {
+        res.status(406).json({ message: 'Неверный логин' });
+      }
+    });
+  }
 });
 
 router.post('/register', (req, res) => {
@@ -60,7 +86,6 @@ router.post('/register', (req, res) => {
     pas: req.body.pas1,
     photo: req.body.photo,
   };
-  console.log(userData)
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
       res.json({ error: 'Такой пользователь уже есть' });// status code 400
@@ -78,26 +103,47 @@ router.post('/register', (req, res) => {
   });
 });
 
-router.get('/user/:id', (req, res) => {
-  const { id } = req.params;
-  const query = 'SELECT * FROM `registration_info` WHERE id_registr_info = ?';
-  connection.query(query, [id], async (err, rows, fields) => {
-    console.log(rows[0]);
-    if (err) {
-      res.status(500);
-    } else {
-      await res.json({
-        firstName: rows[0].first_name,
-        lastName: rows[0].last_name,
-        thirdName: rows[0].third_name,
-        photo: rows[0].photo,
-        phone: rows[0].telefone,
-        bDay: rows[0].birthday_date,
-        pos: rows[0].position,
-        email: rows[0].email,
-      });
-    }
-  });
+router.get('/user/:id/:status', (req, res) => {
+  const { id, status } = req.params;
+  const queryDoctor = 'SELECT * FROM `registration_info` WHERE id_registr_info = ?';
+  const queryPatient = 'SELECT * FROM `pacients_data` WHERE id_pacient = ?';
+  if (status === 'doctor') {
+    connection.query(queryDoctor, [id], async (err, rows, fields) => {
+      console.log(rows[0]);
+      if (err) {
+        res.status(500);
+      } else {
+        await res.json({
+          firstName: rows[0].first_name,
+          lastName: rows[0].last_name,
+          thirdName: rows[0].third_name,
+          photo: rows[0].photo,
+          phone: rows[0].telefone,
+          bDay: rows[0].birthday_date,
+          pos: rows[0].position,
+          email: rows[0].email,
+        });
+      }
+    });
+  } else {
+    connection.query(queryPatient, [id], async (err, rows, fields) => {
+      if (err) {
+        res.status(500);
+      } else {
+        await res.json({
+          firstName: rows[0].first_name,
+          lastName: rows[0].last_name,
+          thirdName: rows[0].third_name,
+          photo: rows[0].photo,
+          phone: rows[0].phone,
+          bDay: rows[0].brth_day,
+          workPlace: rows[0].work_place,
+          regPlace: rows[0].reg_place,
+          email: rows[0].email,
+        });
+      }
+    });
+  }
 });
 
 router.get('/user/:id/:sort/patients/', (req, res) => {

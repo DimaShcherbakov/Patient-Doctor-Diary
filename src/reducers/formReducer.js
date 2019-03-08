@@ -47,7 +47,6 @@ export const HANDLERS = {
   [Types.ADD_DOCTOR]: addDoctor,
   [Types.ADD_PATIENT]: addPatient,
   [Types.RESET]: reset,
-  // [Types.WRONG_PASSWORD]: wrongPassword,
   [Types.WRONG_EMAIL]: wrongEmail,
 };
 

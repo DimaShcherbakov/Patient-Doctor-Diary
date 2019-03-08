@@ -41,10 +41,10 @@ class Form extends React.Component {
 
   sendRequest(e) {
     e.preventDefault(e);
-    const { email, password } = this.state;
+    const { email, password, option } = this.state;
     const { checkData } = this.props;
-    if (email !== '' && password !== '') {
-      checkData({ email, password });
+    if (email !== '' && password !== '' && option !== '') {
+      checkData({ email, password, status: option });
     } else {
       this.setState({
         emailValid: true,
@@ -54,7 +54,7 @@ class Form extends React.Component {
 
   render() {
     const { emailValid, formErrors, email, password  } = this.state;
-
+    console.log(this.state.option)
     const { isAuthorised } = this.props.enter;
     if (isAuthorised) {
       return (
@@ -86,13 +86,13 @@ class Form extends React.Component {
           onChange={this.handleUserInput}
         />
         <div className="select">
-          <select 
+          <select
             name="option"
-            id=""
             onChange={this.handleUserInput}
           >
-            <option value="Доктор">Доктор</option>
-            <option value="Пациент">Пациент</option>
+            <option value="error">Choose status</option>
+            <option value="doctor">Доктор</option>
+            <option value="patient">Пациент</option>
           </select>
         </div>
         <Button
