@@ -5,7 +5,7 @@ import '../styles/formProfile.scss';
 import { Button } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
-import Ava from '../assets/ava.jpg';
+import Ava from '../assets/default.jpg';
 import getDate from '../utils/getDate';
 import { getPersonalInfo } from '../actions/menuActions';
 import addMessage from '../actions/profileAction';
@@ -48,7 +48,7 @@ class Profile extends React.Component {
       chosedDate, time, fullName, note,
     } = this.state;
     const {
-      fN, lN, tN, em, bday, tel, pos,
+      fN, lN, tN, em, bday, tel, pos, photo
     } = this.props.menu;
     const data = [fN, lN, tN, bday, em, tel, pos];
 
@@ -101,7 +101,8 @@ class Profile extends React.Component {
         </div>
         <div className="profileInfo">
           <div className="photo">
-            <img src={Ava} alt="ava" />
+            { console.log(this.props) }
+            <img src={photo !== '' ? photo : Ava} alt="ava" />
           </div>
           <div className="profileData">
             <table className="personData">

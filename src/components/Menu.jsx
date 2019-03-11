@@ -8,7 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import SupervisedUserCircle from '@material-ui/icons/SupervisedUserCircle';
 import { Link } from 'react-router-dom';
 import '../styles/menu.scss';
-import Ava from '../assets/ava.jpg';
+import Ava from '../assets/default.jpg';
 
 const Menu = (props) => {
   const { info, name, handler } = props;
@@ -25,7 +25,7 @@ const Menu = (props) => {
       <nav className="menu-list">
         <div className="info-wrap">
           <div className="image">
-            <img src={Ava} alt="ava" />
+            <img src={info.menu.photo !== '' ? info.menu.photo : Ava} alt="ava" />
           </div>
           <div className="info">
             <p>{ info.menu.lN }</p>
