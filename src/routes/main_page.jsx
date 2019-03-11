@@ -11,6 +11,7 @@ const MainPageRouter = () => (
     <Route path="/main/messenges" />
     <Route exact path="/main/patients" component={WrapperData} />
     <Route path="/main/patients/:id" component={PersonPage} />
+    <Route exact path="/main/patients/:id/result" component={PersonPage} />
   </Switch>
 );
 

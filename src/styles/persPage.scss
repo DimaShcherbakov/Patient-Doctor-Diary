@@ -1,0 +1,22 @@
+.container-pers-page {
+  display:flex;
+  flex-direction: column;
+  background-color: blue;
+  margin: 0 10%;
+  .wrapper-page{
+    display:flex;
+    flex-direction: column;
+    background-color: white;
+    .wrap{
+      display: flex;
+      background-color: green;
+    }
+  }
+  .person-results{
+    background-color: red;
+    .wrap-table{
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
