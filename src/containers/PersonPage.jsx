@@ -1,4 +1,5 @@
 import React from 'react';
+import TableForms from './TableForms.jsx';
 import { Link } from 'react-router-dom';
 import '../styles/persPage.scss';
 
@@ -22,14 +23,15 @@ class PersonPage extends React.Component {
             <p></p>
           </div>
         </section>
+        <TableForms />
         <section className="person-results">
           <div className="wrap-table">
             <table border="1px">
               <caption>Таблица диагнозов</caption>
               <tbody>
                 <tr>
-                  <th>Диагноз</th>
                   <th>Дата выставления</th>
+                  <th>Диагноз</th>
                   <th>Примечания</th>
                   <th>Действие</th>
                 </tr>
@@ -39,6 +41,7 @@ class PersonPage extends React.Component {
               <caption>Таблица препаратов</caption>
               <tbody>
                 <tr>
+                  <th>Дата</th>
                   <th>Препарат</th>
                   <th>Дозировка</th>
                   <th>Примечания</th>
