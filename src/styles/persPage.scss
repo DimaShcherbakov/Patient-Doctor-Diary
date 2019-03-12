@@ -1,7 +1,6 @@
 .container-pers-page {
   display:flex;
   flex-direction: column;
-  background-color: blue;
   margin: 0 10%;
   .wrapper-page{
     display:flex;
@@ -17,6 +16,9 @@
     .wrap-table{
       display: flex;
       justify-content: space-between;
+      table{
+        width: 50%;
+      }
     }
   }
 }

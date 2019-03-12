@@ -26,11 +26,11 @@ class PersonPage extends React.Component {
         <TableForms />
         <section className="person-results">
           <div className="wrap-table">
-            <table border="1px">
+            <table border="1px" width="100%">
               <caption>Таблица диагнозов</caption>
               <tbody>
                 <tr>
-                  <th>Дата выставления</th>
+                  <th>Дата</th>
                   <th>Диагноз</th>
                   <th>Примечания</th>
                   <th>Действие</th>
