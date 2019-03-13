@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/profile.scss';
-import '../styles/tableProfile.scss';
 import '../styles/formProfile.scss';
 import Ava from '../assets/ava.jpg';
 import getDate from '../utils/getDate';
@@ -9,6 +8,7 @@ import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
 import { addRow } from '../actions/profileAction';
 import ProfileTable from '../components/profileTable.jsx';
+
 
 class Profile extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class Profile extends React.Component {
       fullName: '',
       note: '',
     };
+    this.baseState = this.state;
   }
 
   handleUserInput(e) {
@@ -38,6 +39,7 @@ class Profile extends React.Component {
     e.preventDefault();
     const { onAddNewRow } = this.props;
     onAddNewRow(this.state);
+    this.setState(this.baseState);
   }
 
   render() {
@@ -51,7 +53,6 @@ class Profile extends React.Component {
       '665154654156',
     ];
     const { chosedDate, time, fullName, note } = this.state;
-    console.log(this.props.persPage);
     return (
       <div className="container">
         <div className="userInfo">
@@ -74,7 +75,7 @@ class Profile extends React.Component {
                   type="text"
                   name="fullName"
                   placeholder="ФИО"
-                  autocomplete="off"
+                  autoComplete="off"
                   onChange={this.handleUserInput}
                   value={fullName}
                 />
@@ -100,12 +101,14 @@ class Profile extends React.Component {
           </div>
           <div className="profileData">
             <table className="personData">
-              {arr.map((element, index) => (
-                <tr key={index}>
-                  <td>{element}</td>
-                  <td>{data[index]}</td>
-                </tr>
-              ))}
+              <tbody>
+                {arr.map((element, index) => (
+                  <tr key={index}>
+                    <td>{element}</td>
+                    <td>{data[index]}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>

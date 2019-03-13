@@ -1,20 +1,33 @@
-.wrapperTable{
-    margin-top: 45px;
-    .tablePatient{
-        width: 95%;
-        border-collapse: collapse;
-        background-color: #add8e6;
-        .colName{
-            text-align: center;
-        }
-        th{
-            background-color: #9fc7ff;
-        }
-        tr{
-            height: 40px;
-        }
-        td {
-         border: 3px solid white;
+.wrapperTable {
+  margin-top: 45px;
+  .tablePatient {
+    width: 95%;
+    border-collapse: collapse;
+    background-color: #add8e6;
+    table-layout: fixed;
+    .deleteButton{
+        &:hover{
+            color: red;
         }
     }
+    .deleteField {
+      width: 4%;
+    }
+    .date{
+        width:11%;
+    }
+    .colName {
+      text-align: center;
+    }
+    th {
+      background-color: #9fc7ff;
+    }
+    tr {
+      height: 40px;
+    }
+    td {
+      border: 3px solid white;
+      word-break: break-all;
+    }
+  }
 }
