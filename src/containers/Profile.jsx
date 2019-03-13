@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/profile.scss';
-import '../styles/tableProfile.scss';
 import '../styles/formProfile.scss';
 import { Button } from '@material-ui/core';
 import Calendar from 'react-calendar';
@@ -10,6 +9,7 @@ import getDate from '../utils/getDate';
 import { getPersonalInfo } from '../actions/menuActions';
 import addMessage from '../actions/profileAction';
 import ProfileTable from '../components/profileTable.jsx';
+
 
 class Profile extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class Profile extends React.Component {
       fullName: '',
       note: '',
     };
+    this.baseState = this.state;
   }
 
   onChange(date) {
@@ -52,6 +53,22 @@ class Profile extends React.Component {
     } = this.props.menu;
     const data = [fN, lN, tN, bday, em, tel, pos];
 
+  //   const { onAddNewRow } = this.props;
+  //   onAddNewRow(this.state);
+  //   this.setState(this.baseState);
+  // }
+
+  // render() {
+  //   const arr = ['имя', 'отчество', 'фамилия', 'год рождения', 'e-mail', 'телефон'];
+  //   const data = [
+  //     'владимир',
+  //     'владимирович',
+  //     'путин',
+  //     '12.12.1212',
+  //     'rfergrehgfokl@dfgdfg.dfg',
+  //     '665154654156',
+  //   ];
+  //   const { chosedDate, time, fullName, note } = this.state;
     return (
       <div className="container">
         <div className="userInfo">
