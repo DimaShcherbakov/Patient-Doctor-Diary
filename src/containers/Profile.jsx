@@ -4,6 +4,7 @@ import '../styles/formProfile.scss';
 import { Button } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
+import uuid from "uuid/v4";
 import Ava from '../assets/default.jpg';
 import getDate from '../utils/getDate';
 import { getPersonalInfo } from '../actions/menuActions';
@@ -39,8 +40,10 @@ class Profile extends React.Component {
 
   addNote(e) {
     e.preventDefault();
+    console.log(this.props)
     const { addMessage } = this.props;
-    addMessage(this.state);
+    console.log({ fromData: this.state, id: uuid() })
+    // addMessage({ formData: this.state, id: uuid() });
   }
 
   render() {
@@ -52,23 +55,6 @@ class Profile extends React.Component {
       fN, lN, tN, em, bday, tel, pos, photo
     } = this.props.menu;
     const data = [fN, lN, tN, bday, em, tel, pos];
-
-  //   const { onAddNewRow } = this.props;
-  //   onAddNewRow(this.state);
-  //   this.setState(this.baseState);
-  // }
-
-  // render() {
-  //   const arr = ['имя', 'отчество', 'фамилия', 'год рождения', 'e-mail', 'телефон'];
-  //   const data = [
-  //     'владимир',
-  //     'владимирович',
-  //     'путин',
-  //     '12.12.1212',
-  //     'rfergrehgfokl@dfgdfg.dfg',
-  //     '665154654156',
-  //   ];
-  //   const { chosedDate, time, fullName, note } = this.state;
     return (
       <div className="container">
         <div className="userInfo">
@@ -118,7 +104,6 @@ class Profile extends React.Component {
         </div>
         <div className="profileInfo">
           <div className="photo">
-            { console.log(this.props) }
             <img src={photo !== '' ? photo : Ava} alt="ava" />
           </div>
           <div className="profileData">
