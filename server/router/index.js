@@ -157,9 +157,18 @@ router.post('/registration/patient', (req, res) => {
   });
 });
 
-router.post('/messages', (req, res) => {
-  const message = req.body;
+// router.post('/messages', (req, res) => {
+//   const message = req.body;
+// });
 
-});
+router.post('/user/patients/diagnos', (req, res) => {
+  const user = {
+    diagnos: req.body.diagnos,
+    id: req.body.id_patient,
+    date: req.body.date,
+    note: req.body.note,
+  }
+  const query = 'INSERT INTO diagnosis (id_diagnosis, diagnosis_name, date, note) VALUES (NULL, ?, ?, ?)';
+})
 
 module.exports = router;
