@@ -63,7 +63,7 @@ router.post('/register', (req, res) => {
   console.log(userData)
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
-      res.json({ error: 'Такой пользователь уже есть' });// status code 400
+      res.json({ error: 'Такой пользователь уже есть' });
     } else {
       const query2 = `INSERT INTO registration_info(id_registr_info, email, password, first_name, last_name,third_name, 
                       birthday_date, position, telefone, photo) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -164,11 +164,39 @@ router.post('/registration/patient', (req, res) => {
 router.post('/user/patients/diagnos', (req, res) => {
   const user = {
     diagnos: req.body.diagnos,
-    id: req.body.id_patient,
+    id: req.body.id,
     date: req.body.date,
     note: req.body.note,
   }
-  const query = 'INSERT INTO diagnosis (id_diagnosis, diagnosis_name, date, note) VALUES (NULL, ?, ?, ?)';
-})
+  console.log(user)
+  const { id, diagnos, date, note } = user;
+  const query = 'INSERT INTO diagnosis (id_diagnosis, id_pacient, diagnosis_name, date, note) VALUES (NULL, ?, ?, ?, ?)';
+  connection.query(query, [id, diagnos, date, note], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
+router.post('/user/patients/pills', (req, res) => {
+  const data = {
+    id: req.body.id,
+    note: req.body.note,
+    drugs: req.body.drug,
+    dose: req.body.dose,
+    date: req.body.date,
+  };
+  const { id, note, drugs, dose, date } = data;
+  const query = 'INSERT INTO diary_pacients (id_diary, id_pacient, note, drugs, dose, date) VALUES (NULL, ?, ?, ?, ?, ?)';
+  connection.query(query, [id, note, drugs, dose, date], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json(rows);
+    }
+  });
+});
 
 module.exports = router;

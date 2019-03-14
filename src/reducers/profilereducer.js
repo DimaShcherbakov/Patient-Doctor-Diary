@@ -8,9 +8,7 @@ export const { Types, Creators } = createActions({
 
 const INITIAL_STATE = [];
 
-const addMessage = (state = INITIAL_STATE, action) => {
-  return [...state, action.newNote];
-};
+const addMessage = (state = INITIAL_STATE, action) => ([...state, action.newNote]);
 
 const deleteMessage = (state = INITIAL_STATE, action) => {
   state.splice(search(state, action.id), 1);

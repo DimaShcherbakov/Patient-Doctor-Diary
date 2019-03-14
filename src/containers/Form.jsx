@@ -58,7 +58,8 @@ class Form extends React.Component {
     const { isAuthorised } = this.props.enter;
     if (isAuthorised) {
       return (
-        <Redirect to="/main" />
+        // <Redirect to="/main" />
+        <Redirect to="/main/patients/1" />
       );
     }
     return (
