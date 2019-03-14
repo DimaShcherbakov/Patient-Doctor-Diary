@@ -13,9 +13,8 @@ const addMessage = (state = INITIAL_STATE, action) => {
 };
 
 const deleteMessage = (state = INITIAL_STATE, action) => {
-  const newState = state.splice(search(state, action.id), 1);
-  console.log(newState);
-  return newState;
+  state.splice(search(state, action.id), 1);
+  return [...state];
 };
 
 export const HANDLERS = {
