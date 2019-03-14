@@ -4,11 +4,11 @@ import '../styles/formProfile.scss';
 import { Button } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
-import uuid from "uuid/v4";
+import uuid from 'uuid/v4';
 import Ava from '../assets/default.jpg';
 import getDate from '../utils/getDate';
 import { getPersonalInfo } from '../actions/menuActions';
-import addMessage from '../actions/profileAction';
+import { addMessage } from '../actions/profileAction';
 import ProfileTable from '../components/profileTable.jsx';
 
 
@@ -40,10 +40,8 @@ class Profile extends React.Component {
 
   addNote(e) {
     e.preventDefault();
-    console.log(this.props)
     const { addMessage } = this.props;
-    console.log({ fromData: this.state, id: uuid() })
-    // addMessage({ formData: this.state, id: uuid() });
+    addMessage({ formData: this.state, id: uuid() });
   }
 
   render() {

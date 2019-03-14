@@ -2,21 +2,22 @@ import React from 'react';
 import '../styles/tableProfile.scss';
 import { connect } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/DeleteForeverOutlined';
-import { deleteRow } from '../actions/profileAction';
+import { deleteMessage } from '../actions/profileAction';
 
-class ProfileTable extends React.Component{
+class ProfileTable extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteRow = this.onDeleteRow.bind(this);
   }
 
   onDeleteRow(id) {
-    const { deleteRow } = this.props;
-    deleteRow(id);
+    const { deleteMessage } = this.props;
+    deleteMessage(id);
   }
 
-  render(){
+  render() {
     const { rows } = this.props;
+    console.log(rows)
     return (
       <div className="wrapperTable">
         <table className="tablePatient">
@@ -46,11 +47,15 @@ class ProfileTable extends React.Component{
       </div>
     );
   }
-};
+}
 
 const mapStateToProps = state => ({ rows: state.profile });
 const mapDispatchToProps = dispatch => (
-  { deleteRow: id => { dispatch(deleteRow(id))}, }
+  {
+    deleteMessage: (id) => {
+      dispatch(deleteMessage(id));
+    },
+  }
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileTable);
