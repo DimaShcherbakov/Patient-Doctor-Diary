@@ -169,6 +169,14 @@ router.post('/user/patients/diagnos', (req, res) => {
     note: req.body.note,
   }
   const query = 'INSERT INTO diagnosis (id_diagnosis, diagnosis_name, date, note) VALUES (NULL, ?, ?, ?)';
+  connection.query(query, [], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      console.log(rows);
+      res.send(rows);
+    }
+  });
 })
 
 module.exports = router;
