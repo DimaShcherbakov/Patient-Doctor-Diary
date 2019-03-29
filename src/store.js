@@ -7,7 +7,7 @@ import menuReducer from './reducers/menuReducer';
 import patientsReducer from './reducers/patientsReducer';
 import formReducer from './reducers/formReducer';
 import profileReducer from './reducers/profileReducer';
-import patientFormReducer from './reducers/patientFormReducer'
+// import patientFormReducer from './reducers/patientFormReducer'
 
 const io = socketIO.connect('http://localhost:5000');
 const middleware = [thunk, socketIoMiddleware(io)];
@@ -19,7 +19,7 @@ export default createStore(
     patients: patientsReducer,
     form: formReducer,
     profile: profileReducer,
-    patientsDiagnos: patientFormReducer,
+    // patientsDiagnos: patientFormReducer,
   }),
   {},
   applyMiddleware(...middleware),

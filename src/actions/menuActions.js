@@ -9,7 +9,6 @@ export function getPersonalInfo(id) {
   return (dispatch) => {
     axios.get(`http://localhost:5000/user/${id}`)
       .then((res) => {
-        console.log(res.data);
         dispatch(Creators.getMenuData(res.data));
       })
       .catch(err => console.log(err));

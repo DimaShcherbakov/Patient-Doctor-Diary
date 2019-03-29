@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import { Link } from 'react-router-dom';
 import InputBase from '@material-ui/core/InputBase';
-import getListPatients from '../actions/patientsActions';
+import { getListPatients } from '../actions/patientsActions';
 import { reset } from '../actions/formActions';
 import Card from '../components/Card.jsx';
 import '../styles/wrapperData.scss';
