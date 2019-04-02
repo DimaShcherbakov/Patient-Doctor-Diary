@@ -36,45 +36,49 @@ class PersonPage extends React.Component {
         <TableForms id={this.props.match.params.id} />
         <section className="person-results">
           <div className="wrap-table">
-            <table border="1px" width="100%">
-              <caption>Таблица диагнозов</caption>
-              <tbody>
+            <table className="table">
+              {/* <caption>Таблица диагнозов</caption> */}
+              <thead className="thead-dark">
                 <tr>
-                  <th>Дата</th>
-                  <th>Диагноз</th>
-                  <th>Примечания</th>
-                  <th>Действие</th>
+                  <th scope="col">Дата</th>
+                  <th scope="col">Диагноз</th>
+                  <th scope="col">Примечания</th>
+                  <th scope="col">SMTH</th>
                 </tr>
+              </thead>
+              <tbody>
                 { diagnosArr.map((el, i) => (
-                    <tr key={el.id_diagnosis}>
-                      <td>{el.date}</td>
-                      <td>{el.diagnosis_name}</td>
-                      <td>{el.note}</td>
-                      <td>Action</td>
-                    </tr>
-                  ))
+                  <tr key={el.id_diagnosis}>
+                    <td>{el.date}</td>
+                    <td>{el.diagnosis_name}</td>
+                    <td>{el.note}</td>
+                    <td>SMTH</td>
+                  </tr>
+                ))
                 }
               </tbody>
             </table>
-            <table border="1px">
-              <caption>Таблица препаратов</caption>
-              <tbody>
+            <table className="table">
+              {/* <caption>Таблица препаратов</caption> */}
+              <thead className="thead-dark">
                 <tr>
                   <th>Дата</th>
                   <th>Препарат</th>
                   <th>Дозировка</th>
                   <th>Примечания</th>
-                  <th>Действие</th>
+                  <th>SMTH</th>
                 </tr>
+              </thead>
+              <tbody>
                 { drugsArr.map((el, i) => (
-                    <tr key={el.id_diary}>
-                      <td>{el.date}</td>
-                      <td>{el.drugs}</td>
-                      <td>{el.dose}</td>
-                      <td>{el.note}</td>
-                      <td>Action</td>
-                    </tr>
-                  ))
+                  <tr key={el.id_diary}>
+                    <td>{el.date}</td>
+                    <td>{el.drugs}</td>
+                    <td>{el.dose}</td>
+                    <td>{el.note}</td>
+                    <td>Action</td>
+                  </tr>
+                ))
                 }
               </tbody>
             </table>

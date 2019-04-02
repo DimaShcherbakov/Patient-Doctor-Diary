@@ -6,7 +6,7 @@ import Image from '../assets/ava.jpg';
 const Card = (props) => {
   const { info } = props;
   return (
-    <div className="card">
+    <div className="card-person">
       <div className="image-wrap">
         <img src={Image} alt="person" />
       </div>

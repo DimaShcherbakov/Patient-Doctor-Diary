@@ -8,12 +8,14 @@ router.post('/fileupload', (req, res) => {
   if (req.files) {
     const file = req.files.filename;
     const filename = file.name;
-    file.mv(`./patients_analizes/${filename}`, (err) => {
+    file.mv(`./router/patients_analizes/${filename}`, (err) => {
       if (err) {
         console.log(err);
         res.send('Error occured');
       } else {
-        res.send('Done');
+        const fullpath = `${__dirname}/patients_analizes/${filename}`;
+        console.log(fullpath);
+        res.send(fullpath);
       }
     });
   }
