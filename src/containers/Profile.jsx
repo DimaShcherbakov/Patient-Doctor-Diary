@@ -105,7 +105,8 @@ class Profile extends React.Component {
             <img src={photo !== '' ? photo : Ava} alt="ava" />
           </div>
           <div className="profileData">
-            <table className="personData">
+            <table className="table">
+            {/* <table className="personData"></table> */}
               <tbody>
                 {arr.map((element, index) => (
                   <tr key={index}>
