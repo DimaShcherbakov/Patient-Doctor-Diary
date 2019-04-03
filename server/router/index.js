@@ -1,6 +1,6 @@
-const connection = require('../utils/config');
-const jwt = require('jsonwebtoken');
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const connection = require('../utils/config');
 
 global.connection = connection;
 
