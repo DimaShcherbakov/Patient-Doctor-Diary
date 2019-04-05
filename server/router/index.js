@@ -1,8 +1,32 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const connection = require('../utils/config');
+const handleError = require('../utils/handleErrors');
 
 global.connection = connection;
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, __dirname + 'avatars/');
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, file.name);
+  },
+});
+
+const upload = multer({
+  dest: 'avatars/',
+  storage,
+});
+
+router.post('/imageupload', upload.single('avatar'), (req, res) => {
+  console.log(req.files.avatar);
+  if (req.files.avatar) {
+    res.json({ message: 'uploaded' });
+  }
+});
 
 router.post('/fileupload', (req, res) => {
   if (req.files) {
@@ -19,6 +43,35 @@ router.post('/fileupload', (req, res) => {
       }
     });
   }
+});
+
+router.post('/patient/login', (req, res) => {
+  const user = {
+    email: req.body.email,
+    pas: req.body.password,
+  };
+  console.log(user)
+  const query = 'SELECT email, pas, id_pacient FROM pacients_data WHERE email = ? ';
+  connection.query(query, [user.email], (err, rows, fields) => {
+    if (rows[0]) {
+      if (user.pas === rows[0].pas) {
+        jwt.sign({ user }, 'secretkey', { expiresIn: '20h' }, (err, token) => {
+          if (token) {
+            res.send({
+              token,
+              id: rows[0].id_pacient,
+            });
+          } else {
+            res.sendStatus(500);
+          }
+        });
+      } else {
+        res.status(418).json({ message: 'Неверный пароль' });
+      }
+    } else {
+      res.status(406).json({ message: 'Неверный логин' });
+    }
+  });
 });
 
 router.post('/login', (req, res) => {
@@ -42,10 +95,10 @@ router.post('/login', (req, res) => {
           }
         });
       } else {
-        res.status(418).json({ message: 'Неверный пароль' });
+        res.status(418).send('Неверный пароль');
       }
     } else {
-      res.status(406).json({ message: 'Неверный логин' });
+      res.status(406).send('Неверный логин');
     }
   });
 });

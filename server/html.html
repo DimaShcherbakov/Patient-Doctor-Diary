@@ -7,9 +7,19 @@
   <body>
     <h1>title</h1>
     <p>Welcome</p>
-    <form method='post' action='http://localhost:5000/fileupload' enctype="multipart/form-data">
+    <!-- <form method='post' action='http://localhost:5000/fileupload' enctype="multipart/form-data">
       <input type='file' name='filename'>
       <input type='submit' value="send">
+    </form> -->
+
+    <form method='post' action='http://localhost:5000/imageupload' enctype="multipart/form-data">
+      <input type='file' name='file' >
+      <input type='submit' value="submit" >
     </form>
+    <script>
+      navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position);
+      });
+    </script>
   </body>
 </html>
