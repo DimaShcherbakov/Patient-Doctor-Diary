@@ -51,7 +51,7 @@ router.post('/patient/login', (req, res) => {
     pas: req.body.password,
   };
   console.log(user)
-  const query = 'SELECT email, pas, id_pacient FROM pacients_data WHERE email = ? ';
+  const query = 'SELECT email, pas, id_pacient, first_name, last_name, third_name FROM pacients_data WHERE email = ? ';
   connection.query(query, [user.email], (err, rows, fields) => {
     if (rows[0]) {
       if (user.pas === rows[0].pas) {
@@ -60,6 +60,9 @@ router.post('/patient/login', (req, res) => {
             res.send({
               token,
               id: rows[0].id_pacient,
+              firstName: rows[0].first_name,
+              lastName: rows[0].last_name,
+              thirdName: rows[0].third_name,
             });
           } else {
             res.sendStatus(500);
@@ -74,6 +77,27 @@ router.post('/patient/login', (req, res) => {
   });
 });
 
+//--------------------
+router.post('/patient/diary', (req, res) => {
+  const {
+    id,
+    date,
+    time,
+    state,
+    note,
+    pill,
+  } = req.body;
+  console.log(req.body);
+  const query = 'INSERT INTO pat_analyzes (`id_pat_analyzes`, `id_patient`, `date`, `time`, `state`, `pill`, `note`) VALUES (null, ?,?,?,?,?,?)';
+  connection.query(query, [id, date, time, state, pill, note], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json(rows);
+    }
+  });
+});
+//------------------------
 router.post('/login', (req, res) => {
   const user = {
     email: req.body.email,
@@ -115,7 +139,7 @@ router.post('/register', (req, res) => {
     pas: req.body.pas1,
     photo: req.body.photo,
   };
-  console.log(userData)
+  console.log(userData);
   connection.query('SELECT email FROM registration_info WHERE email = ?', [userData.em], (err, rows, fields) => {
     if (rows[0]) {
       res.json({ error: 'Такой пользователь уже есть' });

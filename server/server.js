@@ -35,6 +35,6 @@ const io = socket(server);
 io.on('connection', (socket) => {
   console.log('socket was connected');
   socket.on('disconnect', () => {
-    console.log('user disconnected')
+    console.log('user disconnected');
   });
 });
