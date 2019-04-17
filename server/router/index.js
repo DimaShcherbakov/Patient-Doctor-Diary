@@ -98,6 +98,21 @@ router.post('/patient/diary', (req, res) => {
   });
 });
 //------------------------
+//------------------------
+router.post('/patient/diary/:id/', (req, res) => {
+  const { id } = req.params;
+  const { date } = req.body;
+  console.log(req.body);
+  const query = 'SELECT `time`, `state`, `pill`, `note` FROM `pat_analyzes` WHERE id_patient = ? AND date = ?';
+  connection.query(query, [id, date], (err, rows, fields) => {
+    if (err) {
+      res.status(500);
+    } else {
+      res.json(rows);
+    }
+  });
+});
+//------------------------
 router.post('/login', (req, res) => {
   const user = {
     email: req.body.email,
