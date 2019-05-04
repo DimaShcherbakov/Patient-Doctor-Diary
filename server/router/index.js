@@ -338,17 +338,17 @@ router.post('/fileupload', (req, res) => {
       obj[key] = value;
     });
     req.busboy.on('finish', () => {
-      console.log(obj);
-      res.status(200).send('OK');
-      // connection.query(query, [id, date, filename], (err, rows, fields) => {
-        //       if (err) {
-        //         res.status(500);
-        //       } else {
-        //         res.json({
-        //           file: `static/patients_analizes/${filename}`,
-        //         });
-        //       }
-        //     });
+      const { id, date, filepath } = obj;
+      console.log(id, date, filepath);
+      connection.query(query, [id, date, filepath], (err, rows, fields) => {
+        if (err) {
+          res.status(500);
+        } else {
+          res.status(200).json({
+            file: filepath,
+          });
+        }
+      });
     });
   }
 });
