@@ -7,6 +7,7 @@ import {
   clearData,
 } from '../actions/patientsActions';
 import '../styles/PatientForms.scss';
+import axios from '../utils/axios';
 
 class TableForms extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class TableForms extends React.Component {
     this.handleUserInput = this.handleUserInput.bind(this);
     this.addDiagnosis = this.addDiagnosis.bind(this);
     this.addDrugs = this.addDrugs.bind(this);
+    this.addFile = this.addFile.bind(this);
     this.state = {};
   }
 
@@ -59,6 +61,21 @@ class TableForms extends React.Component {
     });
   }
 
+  addFile(e) {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('file', this.uploadInput.files[0]);
+    data.append('date', this.fileDate.value);
+    data.append('id', this.props.id);
+    axios.post('/fileupload', data)
+      .then((res) => {
+        this.setState({
+          link: `http://localhost:5000/${res.data.file}`,
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <section className="add-data-form">
@@ -96,6 +113,35 @@ class TableForms extends React.Component {
               />
             </div>
             <input type="submit" value="Добавить" />
+          </form>
+        </div>
+        <div className="wrap-form">
+          <p className="header">Добавить обследование</p>
+          <form
+            className="diagnosis-form forms"
+            onSubmit={this.addFile}
+          >
+            <div className="inputs">
+              <label htmlFor="date">Дата
+                <input
+                  type="date"
+                  name="exam_date"
+                  id="date"
+                  ref={(ref) => { this.fileDate = ref; }}
+                />
+              </label>
+            </div>
+            <div className="using">
+              <label htmlFor="file">Файл обследования</label>
+              <input
+                type="file"
+                name="filename"
+                id="file"
+                ref={(ref) => { this.uploadInput = ref; }}
+              />
+            </div>
+            <input type="submit" value="Добавить" />
+            <a href={this.state.link}>File for uploading</a>
           </form>
         </div>
         <div className="wrap-form">

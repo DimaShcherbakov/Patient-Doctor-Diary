@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios from '../utils/axios';
 import { Creators } from '../reducers/patientsReducer';
 
 export function getListPatients(id, sort) {
   return (dispatch) => {
     axios
-      .get(`http://localhost:5000/user/${id}/${sort}/patients`)
+      .get(`/user/${id}/${sort}/patients`)
       .then((res) => {
         dispatch(Creators.listData(res.data));
       })
@@ -17,29 +17,28 @@ function getURL(url) {
 }
 
 export function getDiagDrugs(id) {
-  console.log(id)
   return (dispatch) => {
     axios.all([
-      getURL(`http://localhost:5000/user/diagnosis/${id}`),
-      getURL(`http://localhost:5000/user/pills/${id}`)
+      getURL(`/user/diagnosis/${id}`),
+      getURL(`/user/pills/${id}`),
     ])
     .then((res) => {
-      dispatch(Creators.allData(res))
+      dispatch(Creators.allData(res));
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
     })
   };
 }
 
 export function clearData() {
-  return Creators.clearData()
+  return Creators.clearData();
 }
 
 export function addDiagnosis(payload) {
   return (dispatch) => {
     axios
-      .post('http://localhost:5000/user/patients/diagnos', payload)
+      .post('/user/patients/diagnos', payload)
       .then((res) => {
         dispatch(Creators.diagnosData(payload));
       })
@@ -50,10 +49,21 @@ export function addDiagnosis(payload) {
 export function addDrugs(payload) {
   return (dispatch) => {
     axios
-      .post('http://localhost:5000/user/patients/pills', payload)
+      .post('/user/patients/pills', payload)
       .then((res) => {
-        console.log(res);
         dispatch(Creators.drugsData(payload));
+      })
+      .catch(err => console.log(err));
+  };
+}
+
+export function getPersonalData(id) {
+  return (dispatch) => {
+    axios
+      .get(`/patients/${id}`)
+      .then((res) => {
+        // console.log(res);
+        dispatch(Creators.patient_data(res.data[0]));
       })
       .catch(err => console.log(err));
   };

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TableForms from './TableForms.jsx';
 import { Link } from 'react-router-dom';
+import TableForms from './TableForms.jsx';
+import { getPersonalData } from '../actions/patientsActions';
 import '../styles/persPage.scss';
 
 class PersonPage extends React.Component {
@@ -10,20 +11,27 @@ class PersonPage extends React.Component {
     this.state = {}
   }
 
-  render() {
+  componentDidMount() {
     console.log(this.props.data)
+    const { getPersData } = this.props
+    getPersData(this.props.match.params.id);
+  }
+
+  render() {
     const { diagnosArr } = this.props.data;
     const { drugsArr } = this.props.data;
+    const { patient_data } = this.props.data;
 
+    console.log(this.props.data)
     return (
       <div className="container-pers-page">
         <section className="wrapper-page">
           <div className="wrap">
             <div className="data">
               <h3>Дневник Пациента</h3>
-              <p>Фамилия <span></span></p>
-              <p>Имя <span></span></p>
-              <p>Отчество <span></span></p>
+              <p>{ patient_data.lastName }</p>
+              <p>{ patient_data.firstName}</p>
+              <p>{ patient_data.thirdName }</p>
             </div>
             <div className="photo">
               <img src="" alt="personPhoto" />
@@ -37,7 +45,6 @@ class PersonPage extends React.Component {
         <section className="person-results">
           <div className="wrap-table">
             <table className="table">
-              {/* <caption>Таблица диагнозов</caption> */}
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">Дата</th>
@@ -59,7 +66,6 @@ class PersonPage extends React.Component {
               </tbody>
             </table>
             <table className="table">
-              {/* <caption>Таблица препаратов</caption> */}
               <thead className="thead-dark">
                 <tr>
                   <th>Дата</th>
@@ -83,7 +89,7 @@ class PersonPage extends React.Component {
               </tbody>
             </table>
           </div>
-          <Link to="/main/patients/:id/result">Просмотреть записи</Link>
+          <Link to={`/main/patients/${this.props.match.params.id}/result`}>Просмотреть записи</Link>
         </section>
       </div>
     );
@@ -91,5 +97,6 @@ class PersonPage extends React.Component {
 }
 
 const mapStateToProps = state => ({ data: state.patients });
+const mapDispatchToProps = dispatch => ({ getPersData: id => dispatch(getPersonalData(id)) });
 
-export default connect(mapStateToProps, null)(PersonPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonPage);

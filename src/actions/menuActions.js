@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../utils/axios';
 import { Creators } from '../reducers/menuReducer';
 
 export function openMenu(open) {
@@ -7,7 +7,7 @@ export function openMenu(open) {
 
 export function getPersonalInfo(id) {
   return (dispatch) => {
-    axios.get(`http://localhost:5000/user/${id}`)
+    axios.get(`/user/${id}`)
       .then((res) => {
         dispatch(Creators.getMenuData(res.data));
       })
