@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import TableForms from './TableForms.jsx';
 import { getPersonalData } from '../actions/patientsActions';
+import Ava from '../assets/ava.jpg'
 import '../styles/persPage.scss';
 
 class PersonPage extends React.Component {
@@ -25,20 +26,23 @@ class PersonPage extends React.Component {
     console.log(this.props.data)
     return (
       <div className="container-pers-page">
+        <h3>Дневник Пациента</h3>
         <section className="wrapper-page">
           <div className="wrap">
             <div className="data">
-              <h3>Дневник Пациента</h3>
               <p>{ patient_data.lastName }</p>
               <p>{ patient_data.firstName}</p>
               <p>{ patient_data.thirdName }</p>
+              <p>{ patient_data.email }</p>
+            </div>
+            <div className="data">
+              <p>{ patient_data.workPlace }</p>
+              <p>{ patient_data.regPlace }</p>
+              <p>{ patient_data.tel }</p>
             </div>
             <div className="photo">
-              <img src="" alt="personPhoto" />
+              <img src={Ava} alt="personPhoto" width="100%" height="100%" />
             </div>
-          </div>
-          <div className="other-info">
-            <p></p>
           </div>
         </section>
         <TableForms id={this.props.match.params.id} />

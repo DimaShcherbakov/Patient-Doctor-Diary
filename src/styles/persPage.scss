@@ -2,13 +2,29 @@
   display: flex;
   flex-direction: column;
   margin: 0 10%;
+  h3 {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 10px;
+  }
   .wrapper-page {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    margin-top: 10px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid black;
     .wrap {
       display: flex;
-      background-color: green;
+      justify-content: space-around;
+      align-items: center;
+      .data {
+        font-size: 20px;
+      }
+      .photo {
+        width: 200px;
+        height: 200px;
+      }
     }
   }
   .person-results {
